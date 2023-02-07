@@ -14,11 +14,19 @@ public abstract class Actor implements Drawable {
 
     public void move(int dx, int dy) {
         Cell nextCell = cell.getNeighbor(dx, dy);
-        cell.setActor(null);
-        nextCell.setActor(this);
-        cell = nextCell;
-    }
+        if (!(canHeroMove(nextCell))) {
+            cell.setActor(null);
+            nextCell.setActor(this);
+            cell = nextCell;
+        } else {
+            System.out.println("cant move there");
+        }
 
+    }
+    private boolean canHeroMove(Cell nextCell) {
+        if (nextCell.getActor() != null) return nextCell.getTileName().equals("wall") || nextCell.getActor().getTileName().equals("skeleton");
+        return nextCell.getTileName().equals("wall");
+    }
     public int getHealth() {
         return health;
     }
@@ -34,4 +42,9 @@ public abstract class Actor implements Drawable {
     public int getY() {
         return cell.getY();
     }
+
+//    public String getActorName() {
+//        return
+//    }
+
 }
