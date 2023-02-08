@@ -9,14 +9,12 @@ import java.util.Arrays;
 
 
 public class Player extends Actor {
-
     public Player(Cell cell) {
         super(cell);
     }
-
-
     public String getTileName() {
         return "player";
     }
+
 
 }

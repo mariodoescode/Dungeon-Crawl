@@ -3,6 +3,8 @@ package com.codecool.dungeoncrawl;
 import com.codecool.dungeoncrawl.logic.Cell;
 import com.codecool.dungeoncrawl.logic.GameMap;
 import com.codecool.dungeoncrawl.logic.MapLoader;
+import com.codecool.dungeoncrawl.logic.items.Item;
+import com.codecool.dungeoncrawl.logic.objects.OpenedDoor;
 import javafx.application.Application;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -21,6 +23,7 @@ import javafx.stage.Stage;
 import java.util.Arrays;
 
 public class Main extends Application {
+    Stage window;
     GameMap map = MapLoader.loadMap();
     Canvas canvas = new Canvas(
             map.getWidth() * Tiles.TILE_WIDTH,
@@ -54,12 +57,14 @@ public class Main extends Application {
         borderPane.setRight(ui);
 
         Scene scene = new Scene(borderPane);
-        primaryStage.setScene(scene);
+        window = primaryStage;
+        window.setScene(scene);
         refresh();
         scene.setOnKeyPressed(this::onKeyPressed);
 
-        primaryStage.setTitle("Dungeon Crawl");
-        primaryStage.show();
+        window.setTitle("Dungeon Crawl");
+
+        window.show();
     }
 
     private void onKeyPressed(KeyEvent keyEvent) {
@@ -90,17 +95,31 @@ public class Main extends Application {
             for (int y = 0; y < map.getHeight(); y++) {
                 Cell cell = map.getCell(x, y);
                 if (cell.getActor() != null) {
-                    Tiles.drawTile(context, cell.getActor(), x, y);
+                    if (cell.getActor().getHealth() > 0) {
+                        Tiles.drawTile(context, cell.getActor(), x, y);
+                    } else {
+                        window.close();
+                    }
                 } else if (cell.getItem() != null) {
                     Tiles.drawTile(context, cell.getItem(), x, y);
-                } else {
+                } else if (cell.getObject() != null) {
+                    if (map.getPlayer().getItems().length > 0) {
+                        for (Item item:map.getPlayer().getItems()) {
+                            if (item.getTileName().equals("key")) {
+                                Tiles.drawTile(context, new OpenedDoor(cell), x, y);
+                            }
+                        }
+                    } else {
+                            Tiles.drawTile(context, cell.getObject(), x, y);
+                    }
+                }
+                else {
                     Tiles.drawTile(context, cell, x, y);
                 }
                 if (cell.getActor() != null & cell.getItem() != null) {
                     pickUpButton.setDisable(false);
                     pickUpButton.setOnAction(e -> {
-
-                        System.out.println(inventory);
+                        cell.getActor().addItem(cell.getItem());
                         cell.removeItem();
                         pickUpButton.setDisable(true);});
 
