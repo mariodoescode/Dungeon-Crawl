@@ -2,6 +2,8 @@ package com.codecool.dungeoncrawl.logic;
 
 import com.codecool.dungeoncrawl.logic.actors.Player;
 
+import java.lang.reflect.Array;
+
 public class GameMap {
     private int width;
     private int height;
