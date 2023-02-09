@@ -2,6 +2,7 @@ package com.codecool.dungeoncrawl.logic;
 
 import com.codecool.dungeoncrawl.logic.actors.Player;
 import com.codecool.dungeoncrawl.logic.actors.Skeleton;
+import com.codecool.dungeoncrawl.logic.actors.Snake;
 import com.codecool.dungeoncrawl.logic.items.Item;
 import com.codecool.dungeoncrawl.logic.items.Key;
 import com.codecool.dungeoncrawl.logic.items.Sword;
@@ -51,6 +52,10 @@ public class MapLoader {
                         case '*':
                             cell.setType(CellType.FLOOR);
                             new Sword(cell);
+                            break;
+                        case '6':
+                            cell.setType(CellType.FLOOR);
+                            new Snake(cell);
                             break;
                         case '7':
                             cell.setType(CellType.FLOOR);

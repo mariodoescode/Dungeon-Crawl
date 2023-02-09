@@ -26,8 +26,7 @@ public class Main extends Application {
     Stage window;
     GameMap map = MapLoader.loadMap();
     Canvas canvas = new Canvas(
-            map.getWidth() * Tiles.TILE_WIDTH,
-            map.getHeight() * Tiles.TILE_WIDTH);
+            1080,720);
     GraphicsContext context = canvas.getGraphicsContext2D();
     Label healthLabel = new Label();
     Button pickUpButton = new Button("Pick up");
@@ -107,10 +106,12 @@ public class Main extends Application {
                         for (Item item:map.getPlayer().getItems()) {
                             if (item.getTileName().equals("key")) {
                                 Tiles.drawTile(context, new OpenedDoor(cell), x, y);
+                            } else {
+                                Tiles.drawTile(context, cell.getObject(), x, y);
                             }
                         }
                     } else {
-                            Tiles.drawTile(context, cell.getObject(), x, y);
+                        Tiles.drawTile(context, cell.getObject(), x, y);
                     }
                 }
                 else {
