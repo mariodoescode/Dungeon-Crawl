@@ -40,10 +40,10 @@ public abstract class Actor implements Drawable {
     }
 
     private void battle(Cell playerCell, Cell monsterCell) {
-        if ((playerHasSword())) {
+        if (playerHasWeapon("sword")) {
             playerCell.getActor().setStrength(10);
-        } else {
-            playerCell.getActor().setStrength(5);
+        } else if (playerHasWeapon("bow")) {
+            playerCell.getActor().setStrength(15);
         }
         int monsterHealth = monsterCell.getActor().getHealth() - playerCell.getActor().getStrength();
         int playerHealth = playerCell.getActor().getHealth() - monsterCell.getActor().getStrength();
@@ -52,9 +52,9 @@ public abstract class Actor implements Drawable {
         playerCell.getActor().setHealth(playerHealth);
     }
 
-    private boolean playerHasSword() {
+    private boolean playerHasWeapon(String weapon) {
         for (Item item : inventory) {
-            if (item.getTileName().equals("sword")) return true;
+            if (item.getTileName().equals(weapon)) return true;
         }
         return false;
     }
@@ -73,7 +73,7 @@ public abstract class Actor implements Drawable {
     }
 
     public void setStrength(int strength) {
-        this.strength = strength;
+        this.strength += strength;
     }
 
     public Cell getCell() {
@@ -96,8 +96,8 @@ public abstract class Actor implements Drawable {
 
     public StringBuilder getInventory(){
         StringBuilder items = new StringBuilder();
-        for( int i=0; i < inventory.length; i++) {
-            items.append(inventory[i].getTileName());
+        for (Item item : inventory) {
+            items.append(item.getTileName());
             items.append(" ");
         }
         return items;
