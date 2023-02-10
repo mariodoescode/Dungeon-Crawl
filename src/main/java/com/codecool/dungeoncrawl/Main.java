@@ -3,6 +3,7 @@ package com.codecool.dungeoncrawl;
 import com.codecool.dungeoncrawl.logic.Cell;
 import com.codecool.dungeoncrawl.logic.GameMap;
 import com.codecool.dungeoncrawl.logic.MapLoader;
+import com.codecool.dungeoncrawl.logic.actors.Player;
 import com.codecool.dungeoncrawl.logic.items.Item;
 import com.codecool.dungeoncrawl.logic.objects.OpenedDoor;
 import javafx.application.Application;
@@ -24,9 +25,12 @@ import java.util.Arrays;
 
 public class Main extends Application {
     Stage window;
+    public static int VISIBLE_TILES_SIZE = 14;
     GameMap map = MapLoader.loadMap();
     Canvas canvas = new Canvas(
-            1080,720);
+            VISIBLE_TILES_SIZE * Tiles.TILE_WIDTH,
+            VISIBLE_TILES_SIZE * Tiles.TILE_WIDTH);
+
     GraphicsContext context = canvas.getGraphicsContext2D();
     Label healthLabel = new Label();
     Button pickUpButton = new Button("Pick up");
@@ -84,15 +88,32 @@ public class Main extends Application {
                 map.getPlayer().move(1,0);
                 refresh();
                 break;
+            
         }
     }
 
     private void refresh() {
+        Player player = map.getPlayer();
+        int playerX = player.getX();
+        int playerY = player.getY();
         context.setFill(Color.BLACK);
         context.fillRect(0, 0, canvas.getWidth(), canvas.getHeight());
-        for (int x = 0; x < map.getWidth(); x++) {
-            for (int y = 0; y < map.getHeight(); y++) {
-                Cell cell = map.getCell(x, y);
+        for (int x = 0; x < VISIBLE_TILES_SIZE; x++) {
+            for (int y = 0; y < VISIBLE_TILES_SIZE; y++) {
+                int middleX = playerX;
+                int middleY = playerY;
+                if (playerX - VISIBLE_TILES_SIZE / 2 < 0) {
+                    middleX = VISIBLE_TILES_SIZE / 2;
+                } else if (playerX + VISIBLE_TILES_SIZE / 2 > map.getWidth()) {
+                    middleX = map.getWidth() - VISIBLE_TILES_SIZE / 2;
+                }
+                if (playerY - VISIBLE_TILES_SIZE / 2 < 0) {
+                    middleY = VISIBLE_TILES_SIZE / 2;
+                } else if (playerY + VISIBLE_TILES_SIZE / 2 > map.getHeight()) {
+                    middleY = map.getHeight() - VISIBLE_TILES_SIZE / 2;
+                }
+
+                Cell cell = map.getCell(middleX - VISIBLE_TILES_SIZE / 2 + x, middleY - VISIBLE_TILES_SIZE / 2 + y);
                 if (cell.getActor() != null) {
                     if (cell.getActor().getHealth() > 0) {
                         Tiles.drawTile(context, cell.getActor(), x, y);

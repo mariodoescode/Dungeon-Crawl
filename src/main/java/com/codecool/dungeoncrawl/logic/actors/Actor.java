@@ -7,9 +7,9 @@ import com.codecool.dungeoncrawl.logic.items.Item;
 import java.util.Arrays;
 
 public abstract class Actor implements Drawable {
-    private Cell cell;
+    Cell cell;
     private int health = 10;
-    private int strength = 2;
+    private int strength;
     private Item[] inventory = new Item[0];
 
     public Actor(Cell cell) {
@@ -33,23 +33,21 @@ public abstract class Actor implements Drawable {
                 cell = nextCell;
             }
 
-        } else {
-            System.out.println("cant move there");
         }
-
     }
 
     private void battle(Cell playerCell, Cell monsterCell) {
         if (playerHasWeapon("sword")) {
-            playerCell.getActor().setStrength(10);
+            playerCell.getActor().setStrength(5);
         } else if (playerHasWeapon("bow")) {
-            playerCell.getActor().setStrength(15);
+            playerCell.getActor().setStrength(10);
         }
         int monsterHealth = monsterCell.getActor().getHealth() - playerCell.getActor().getStrength();
         int playerHealth = playerCell.getActor().getHealth() - monsterCell.getActor().getStrength();
-
         monsterCell.getActor().setHealth(monsterHealth);
-        playerCell.getActor().setHealth(playerHealth);
+        if (monsterHealth > 0) playerCell.getActor().setHealth(playerHealth);
+
+
     }
 
     private boolean playerHasWeapon(String weapon) {
@@ -59,7 +57,8 @@ public abstract class Actor implements Drawable {
         return false;
     }
 
-    private boolean canHeroMove(Cell nextCell) {
+    boolean canHeroMove(Cell nextCell) {
+        if (nextCell.getObject() != null) return nextCell.getTileName().equals("wall") || nextCell.getObject().getTileName().equals("closed-door");
         return nextCell.getTileName().equals("wall");
     }
     public int getHealth() {
