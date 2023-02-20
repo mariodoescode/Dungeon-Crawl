@@ -74,19 +74,19 @@ public class MapLoader {
                             cell.setType(CellType.FLOOR);
                             map.setGhost(new Ghost(cell));
                         }
-                        case '8' -> {
+                        case '1' -> {
                             cell.setType(CellType.FLOOR);
                             new chestPlate(cell);
                         }
-                        case '9' -> {
+                        case '2' -> {
                             cell.setType(CellType.FLOOR);
                             new Helmet(cell);
                         }
-                        case '}' -> {
+                        case '3' -> {
                             cell.setType(CellType.FLOOR);
                             new Shield(cell);
                         }
-                        case '%' -> {
+                        case '4' -> {
                             cell.setType(CellType.FLOOR);
                             new Boots(cell);
                         }

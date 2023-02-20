@@ -7,13 +7,12 @@ public class Player extends Actor {
     private String name;
 
     public Player(Cell cell) {
-        super(cell);
-    }
+            super(cell);
+            setStrength(5);
+        }
 
-    public Player(Cell cell, String name) {
-        super(cell);
-        this.name = name;
-    }
+
+
 
     public String getName() {
         return name;

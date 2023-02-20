@@ -13,6 +13,7 @@ import com.codecool.dungeoncrawl.logic.items.Item;
 import com.codecool.dungeoncrawl.logic.objects.OpenedDoor;
 
 import javafx.geometry.Insets;
+import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
@@ -46,6 +47,7 @@ public class Main extends Application {
     Label healthLabel = new Label();
     Button pickUpButton = new Button("Pick up");
     Label inventory = new Label();
+    Label strength = new Label();
     GameDatabaseManager dbManager;
     public static void main(String[] args) {
         launch(args);
@@ -62,6 +64,10 @@ public class Main extends Application {
         ui.add(healthLabel, 1, 0);
         ui.add(new Label("Inventory:"), 0,3);
         ui.add(inventory, 0, 4);
+
+        ui.add(new Label("Strength:"), 0,5);
+
+        ui.add(strength, 2, 5);
 
         ui.add(pickUpButton, 0,2);
         pickUpButton.setDisable(true);
@@ -80,13 +86,7 @@ public class Main extends Application {
         window.setTitle("Dungeon Crawl");
 
         window.show();
-        primaryStage.setScene(scene);
-        refresh();
-        scene.setOnKeyPressed(this::onKeyPressed);
-        scene.setOnKeyReleased(this::onKeyReleased);
 
-        primaryStage.setTitle("Dungeon Crawl");
-        primaryStage.show();
     }
 
     private void onKeyReleased(KeyEvent keyEvent) {
@@ -103,19 +103,22 @@ public class Main extends Application {
         switch (keyEvent.getCode()) {
             case UP:
                 map.getPlayer().move(0, -1);
+                map.getGhost().move();
                 refresh();
                 break;
             case DOWN:
                 map.getPlayer().move(0, 1);
+                map.getGhost().move();
                 refresh();
                 break;
             case LEFT:
                 map.getPlayer().move(-1, 0);
+                map.getGhost().move();
                 refresh();
                 break;
             case RIGHT:
-
                 map.getPlayer().move(1, 0);
+                map.getGhost().move();
                 refresh();
                 break;
             case S:
@@ -176,6 +179,7 @@ public class Main extends Application {
                     pickUpButton.setDisable(false);
                     pickUpButton.setOnAction(e -> {
                         cell.getActor().addItem(cell.getItem());
+                        cell.getActor().setStats(cell.getItem(), cell.getActor());
                         cell.removeItem();
                         pickUpButton.setDisable(true);});
 
@@ -183,6 +187,7 @@ public class Main extends Application {
             }
             healthLabel.setText("" + map.getPlayer().getHealth());
             inventory.setText("" + map.getPlayer().getInventory());
+            strength.setText("" + map.getPlayer().getStrength());
         }
     }
 

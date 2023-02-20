@@ -9,14 +9,6 @@ public class Skeleton extends Actor {
 
     }
 
-//    public void move() {
-//        Cell nextCell = cell.getNeighbor(0,3);
-//        if (canHeroMove(nextCell)) {
-//            cell.setActor(null);
-//            nextCell.setActor(this);
-//            cell = nextCell;
-//        }
-//    }
 
     @Override
     public String getTileName() {
