@@ -1,6 +1,7 @@
 package com.codecool.dungeoncrawl.logic.actors;
 
 import com.codecool.dungeoncrawl.logic.Cell;
+import com.codecool.dungeoncrawl.logic.CellType;
 import com.codecool.dungeoncrawl.logic.Drawable;
 import com.codecool.dungeoncrawl.logic.items.Item;
 import java.util.Arrays;
@@ -41,25 +42,14 @@ public abstract class Actor implements Drawable {
 
 
     private void battle(Cell playerCell, Cell monsterCell) {
-        if (playerHasItem("sword")) {
-            playerCell.getActor().setStrength(5);
-        } else if (playerHasItem("bow")) {
-            playerCell.getActor().setStrength(10);
-        } else if (playerHasItem("chest-plate")) {
-            playerCell.getActor().setHealth(10);
-        } else if (playerHasItem("shield")) {
-            playerCell.getActor().setHealth(8);
-        } else if (playerHasItem("boots")) {
-            playerCell.getActor().setHealth(2);
-        } else if (playerHasItem("helmet")) {
-            playerCell.getActor().setHealth(4);
-        }
         int monsterHealth = monsterCell.getActor().getHealth() - playerCell.getActor().getStrength();
         int playerHealth = playerCell.getActor().getHealth() - monsterCell.getActor().getStrength();
-        monsterCell.getActor().setHealth(monsterHealth);
-        if (monsterHealth > 0) playerCell.getActor().setHealth(playerHealth);
+        monsterCell.getActor().setMobHealth(monsterHealth);
+        if (monsterHealth > 0) playerCell.getActor().setMobHealth(playerHealth);
+    }
 
-
+    private void setMobHealth(int health) {
+        this.health = health;
     }
 
     private boolean playerHasItem(String weapon) {
@@ -69,7 +59,7 @@ public abstract class Actor implements Drawable {
         return false;
     }
 
-    private boolean canHeroMove(Cell nextCell) {
+    boolean canHeroMove(Cell nextCell) {
         if (nextCell.getObject() != null) return nextCell.getTileName().equals("wall") || nextCell.getObject().getTileName().equals("closed-door");
         return nextCell.getTileName().equals("wall");
     }
@@ -103,6 +93,19 @@ public abstract class Actor implements Drawable {
         Item[] array = Arrays.copyOf(inventory,inventory.length+1);
         array[inventory.length] = item;
         inventory = array;
+    }
+
+    public void setStats(Item item, Actor actor) {
+        switch (item.getTileName()) {
+            case "sword" -> actor.setStrength(5);
+            case "bow" -> actor.setStrength(10);
+            case "chest-plate" -> actor.setHealth(10);
+            case "helmet" -> actor.setHealth(5);
+            case "boots" -> actor.setHealth(2);
+            case "shield" -> actor.setHealth(8);
+
+        }
+
     }
 
     public StringBuilder getInventory(){

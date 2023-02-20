@@ -16,6 +16,7 @@ import java.util.Scanner;
 public class MapLoader {
     public static GameMap loadMap() {
         InputStream is = MapLoader.class.getResourceAsStream("/game-map.txt");
+        assert is != null;
         Scanner scanner = new Scanner(is);
         int width = scanner.nextInt();
         int height = scanner.nextInt();
@@ -29,66 +30,59 @@ public class MapLoader {
                 if (x < line.length()) {
                     Cell cell = map.getCell(x, y);
                     switch (line.charAt(x)) {
-                        case ' ':
-                            cell.setType(CellType.EMPTY);
-                            break;
-                        case '#':
-                            cell.setType(CellType.WALL);
-                            break;
-                        case '.':
-                            cell.setType(CellType.FLOOR);
-                            break;
-                        case 's':
+                        case ' ' -> cell.setType(CellType.EMPTY);
+                        case '#' -> cell.setType(CellType.WALL);
+                        case '.' -> cell.setType(CellType.FLOOR);
+                        case 's' -> {
                             cell.setType(CellType.FLOOR);
                             new Skeleton(cell);
-                            break;
-                        case '@':
+                        }
+                        case '@' -> {
                             cell.setType(CellType.FLOOR);
 //                            map.setPlayer(new Player(cell, "Player"));
                             map.setPlayer(new Player(cell));
-                            break;
-                        case '$':
+                        }
+                        case '$' -> {
                             cell.setType(CellType.FLOOR);
                             new Key(cell);
-                            break;
-                        case '*':
+                        }
+                        case '*' -> {
                             cell.setType(CellType.FLOOR);
                             new Sword(cell);
-                            break;
-                        case '5':
+                        }
+                        case '5' -> {
                             cell.setType(CellType.FLOOR);
                             new Bow(cell);
-                            break;
-                        case '6':
+                        }
+                        case '6' -> {
                             cell.setType(CellType.FLOOR);
                             new Snake(cell);
-                            break;
-                        case '7':
+                        }
+                        case '7' -> {
                             cell.setType(CellType.FLOOR);
                             new ClosedDoor(cell);
-                            break;
-                        case 'a':
+                        }
+                        case 'a' -> {
                             cell.setType(CellType.FLOOR);
                             map.setGhost(new Ghost(cell));
-                            break;
-                        case '8':
+                        }
+                        case '1' -> {
                             cell.setType(CellType.FLOOR);
                             new chestPlate(cell);
-                            break;
-                        case '9':
+                        }
+                        case '2' -> {
                             cell.setType(CellType.FLOOR);
                             new Helmet(cell);
-                            break;
-                        case '}':
+                        }
+                        case '3' -> {
                             cell.setType(CellType.FLOOR);
                             new Shield(cell);
-                            break;
-                        case '%':
+                        }
+                        case '4' -> {
                             cell.setType(CellType.FLOOR);
                             new Boots(cell);
-                            break;
-                        default:
-                            throw new RuntimeException("Unrecognized character: '" + line.charAt(x) + "'");
+                        }
+                        default -> throw new RuntimeException("Unrecognized character: '" + line.charAt(x) + "'");
                     }
                 }
             }
