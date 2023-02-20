@@ -6,9 +6,7 @@ import com.codecool.dungeoncrawl.logic.actors.Skeleton;
 
 import com.codecool.dungeoncrawl.logic.actors.Ghost;
 import com.codecool.dungeoncrawl.logic.actors.Snake;
-import com.codecool.dungeoncrawl.logic.items.Key;
-import com.codecool.dungeoncrawl.logic.items.Bow;
-import com.codecool.dungeoncrawl.logic.items.Sword;
+import com.codecool.dungeoncrawl.logic.items.*;
 import com.codecool.dungeoncrawl.logic.objects.ClosedDoor;
 
 
@@ -17,7 +15,7 @@ import java.util.Scanner;
 
 public class MapLoader {
     public static GameMap loadMap() {
-        InputStream is = MapLoader.class.getResourceAsStream("/cringe.txt");
+        InputStream is = MapLoader.class.getResourceAsStream("/game-map.txt");
         Scanner scanner = new Scanner(is);
         int width = scanner.nextInt();
         int height = scanner.nextInt();
@@ -72,6 +70,22 @@ public class MapLoader {
                         case 'a':
                             cell.setType(CellType.FLOOR);
                             map.setGhost(new Ghost(cell));
+                            break;
+                        case '8':
+                            cell.setType(CellType.FLOOR);
+                            new chestPlate(cell);
+                            break;
+                        case '9':
+                            cell.setType(CellType.FLOOR);
+                            new Helmet(cell);
+                            break;
+                        case '}':
+                            cell.setType(CellType.FLOOR);
+                            new Shield(cell);
+                            break;
+                        case '%':
+                            cell.setType(CellType.FLOOR);
+                            new Boots(cell);
                             break;
                         default:
                             throw new RuntimeException("Unrecognized character: '" + line.charAt(x) + "'");

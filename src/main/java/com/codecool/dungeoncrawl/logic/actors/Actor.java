@@ -41,10 +41,18 @@ public abstract class Actor implements Drawable {
 
 
     private void battle(Cell playerCell, Cell monsterCell) {
-        if (playerHasWeapon("sword")) {
+        if (playerHasItem("sword")) {
             playerCell.getActor().setStrength(5);
-        } else if (playerHasWeapon("bow")) {
+        } else if (playerHasItem("bow")) {
             playerCell.getActor().setStrength(10);
+        } else if (playerHasItem("chest-plate")) {
+            playerCell.getActor().setHealth(10);
+        } else if (playerHasItem("shield")) {
+            playerCell.getActor().setHealth(8);
+        } else if (playerHasItem("boots")) {
+            playerCell.getActor().setHealth(2);
+        } else if (playerHasItem("helmet")) {
+            playerCell.getActor().setHealth(4);
         }
         int monsterHealth = monsterCell.getActor().getHealth() - playerCell.getActor().getStrength();
         int playerHealth = playerCell.getActor().getHealth() - monsterCell.getActor().getStrength();
@@ -54,7 +62,7 @@ public abstract class Actor implements Drawable {
 
     }
 
-    private boolean playerHasWeapon(String weapon) {
+    private boolean playerHasItem(String weapon) {
         for (Item item : inventory) {
             if (item.getTileName().equals(weapon)) return true;
         }
@@ -72,7 +80,7 @@ public abstract class Actor implements Drawable {
         return strength;
     }
     public void setHealth(int health) {
-        this.health = health;
+        this.health += health;
     }
 
     public void setStrength(int strength) {
