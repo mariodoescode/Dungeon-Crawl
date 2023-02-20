@@ -11,9 +11,6 @@ public class Player extends Actor {
             setStrength(5);
         }
 
-
-
-
     public String getName() {
         return name;
     }

@@ -41,6 +41,7 @@ public class Tiles {
         tileMap.put("helmet", new Tile(4,22));
         tileMap.put("boots", new Tile(8,22));
         tileMap.put("shield", new Tile(7,26));
+        tileMap.put("teleporter", new Tile(21,24));
     }
 
     public static void drawTile(GraphicsContext context, Drawable d, int x, int y) {

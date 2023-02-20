@@ -89,6 +89,14 @@ public abstract class Actor implements Drawable {
         return cell.getY();
     }
 
+    public void setX(int x) {
+        cell.setX(x);
+    }
+
+    public void setY(int y) {
+        cell.setY(y);
+    }
+
     public void addItem(Item item) {
         Item[] array = Arrays.copyOf(inventory,inventory.length+1);
         array[inventory.length] = item;
@@ -96,13 +104,16 @@ public abstract class Actor implements Drawable {
     }
 
     public void setStats(Item item, Actor actor) {
-        switch (item.getTileName()) {
-            case "sword" -> actor.setStrength(5);
-            case "bow" -> actor.setStrength(10);
-            case "chest-plate" -> actor.setHealth(10);
-            case "helmet" -> actor.setHealth(5);
-            case "boots" -> actor.setHealth(2);
-            case "shield" -> actor.setHealth(8);
+        if (item != null) {
+            switch (item.getTileName()) {
+                case "sword" -> actor.setStrength(5);
+                case "bow" -> actor.setStrength(10);
+                case "chest-plate" -> actor.setHealth(10);
+                case "helmet" -> actor.setHealth(5);
+                case "boots" -> actor.setHealth(2);
+                case "shield" -> actor.setHealth(8);
+        }
+
 
         }
 
@@ -111,8 +122,10 @@ public abstract class Actor implements Drawable {
     public StringBuilder getInventory(){
         StringBuilder items = new StringBuilder();
         for (Item item : inventory) {
-            items.append(item.getTileName());
-            items.append(" ");
+            if (item != null) {
+                items.append(item.getTileName());
+                items.append(" ");
+            }
         }
         return items;
     }

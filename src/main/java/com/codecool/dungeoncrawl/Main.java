@@ -7,6 +7,7 @@ import com.codecool.dungeoncrawl.logic.GameMap;
 import com.codecool.dungeoncrawl.logic.MapLoader;
 
 import com.codecool.dungeoncrawl.logic.actors.Player;
+import com.codecool.dungeoncrawl.logic.actors.Skeleton;
 import javafx.application.Application;
 
 import com.codecool.dungeoncrawl.logic.items.Item;
@@ -17,7 +18,7 @@ import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
-
+import java.util.concurrent.ThreadLocalRandom;
 import javafx.scene.control.Label;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyCodeCombination;
@@ -31,11 +32,11 @@ import javafx.stage.Stage;
 import java.util.Arrays;
 
 import java.sql.SQLException;
-
-
+import java.util.Random;
 
 
 public class Main extends Application {
+    Random random = new Random();
     Stage window;
     public static int VISIBLE_TILES_SIZE = 14;
     GameMap map = MapLoader.loadMap();
@@ -70,7 +71,7 @@ public class Main extends Application {
         ui.add(strength, 2, 5);
 
         ui.add(pickUpButton, 0,2);
-        pickUpButton.setDisable(true);
+        pickUpButton.setFocusTraversable(false);
 
         BorderPane borderPane = new BorderPane();
 
@@ -103,22 +104,30 @@ public class Main extends Application {
         switch (keyEvent.getCode()) {
             case UP:
                 map.getPlayer().move(0, -1);
-                map.getGhost().move();
+                for (Skeleton skeleton : map.getSkeleton()) {
+                    skeleton.move(ThreadLocalRandom.current().nextInt(-1, 1 + 1), ThreadLocalRandom.current().nextInt(-1, 1 + 1));
+                }
                 refresh();
                 break;
             case DOWN:
                 map.getPlayer().move(0, 1);
-                map.getGhost().move();
+                for (Skeleton skeleton : map.getSkeleton()) {
+                    skeleton.move(ThreadLocalRandom.current().nextInt(-1, 1 + 1),ThreadLocalRandom.current().nextInt(-1, 1 + 1));
+                }
                 refresh();
                 break;
             case LEFT:
                 map.getPlayer().move(-1, 0);
-                map.getGhost().move();
+                for (Skeleton skeleton : map.getSkeleton()) {
+                    skeleton.move(ThreadLocalRandom.current().nextInt(-1, 1 + 1),ThreadLocalRandom.current().nextInt(-1, 1 + 1));
+                }
                 refresh();
                 break;
             case RIGHT:
                 map.getPlayer().move(1, 0);
-                map.getGhost().move();
+                for (Skeleton skeleton : map.getSkeleton()) {
+                    skeleton.move(ThreadLocalRandom.current().nextInt(-1, 1 + 1),ThreadLocalRandom.current().nextInt(-1, 1 + 1));
+                }
                 refresh();
                 break;
             case S:
@@ -151,23 +160,28 @@ public class Main extends Application {
                 }
 
                 Cell cell = map.getCell(middleX - VISIBLE_TILES_SIZE / 2 + x, middleY - VISIBLE_TILES_SIZE / 2 + y);
+                if (cell.getActor() != null & cell.getObject() != null) {
+                    if (cell.getObject().getTileName() == "teleporter") {
+                        player.setX(88);
+                        player.setY(15);
+                    }
+                }
                 if (cell.getActor() != null) {
                     if (cell.getActor().getHealth() > 0) {
                         Tiles.drawTile(context, cell.getActor(), x, y);
-                    } else {
-                        window.close();
                     }
                 } else if (cell.getItem() != null) {
                     Tiles.drawTile(context, cell.getItem(), x, y);
                 } else if (cell.getObject() != null) {
                     if (map.getPlayer().getItems().length > 0) {
                         for (Item item:map.getPlayer().getItems()) {
+                            if (item != null) {
                             if (item.getTileName().equals("golden-key")) {
                                 Tiles.drawTile(context, new OpenedDoor(cell), x, y);
                             } else {
                                 Tiles.drawTile(context, cell.getObject(), x, y);
                             }
-                        }
+                        }}
                     } else {
                         Tiles.drawTile(context, cell.getObject(), x, y);
                     }
@@ -176,14 +190,14 @@ public class Main extends Application {
                     Tiles.drawTile(context, cell, x, y);
                 }
                 if (cell.getActor() != null & cell.getItem() != null) {
-                    pickUpButton.setDisable(false);
                     pickUpButton.setOnAction(e -> {
+                        if(cell.getActor() != null ) {
                         cell.getActor().addItem(cell.getItem());
                         cell.getActor().setStats(cell.getItem(), cell.getActor());
                         cell.removeItem();
-                        pickUpButton.setDisable(true);});
-
+                    }});
                 }
+
             }
             healthLabel.setText("" + map.getPlayer().getHealth());
             inventory.setText("" + map.getPlayer().getInventory());

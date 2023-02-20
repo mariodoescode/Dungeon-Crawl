@@ -6,8 +6,8 @@ public class Skeleton extends Actor {
     public Skeleton(Cell cell) {
         super(cell);
         setStrength(2);
-
     }
+
 
 
     @Override
