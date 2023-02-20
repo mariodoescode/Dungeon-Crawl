@@ -15,10 +15,10 @@ public class GameDatabaseManager {
         playerDao = new PlayerDaoJdbc(dataSource);
     }
 
-    public void savePlayer(Player player) {
-        PlayerModel model = new PlayerModel(player);
-        playerDao.add(model);
-    }
+//    public void savePlayer(Player player) {
+//        PlayerModel model = new PlayerModel(player);
+//        playerDao.add(model);
+//    }
 
     private DataSource connect() throws SQLException {
         PGSimpleDataSource dataSource = new PGSimpleDataSource();

@@ -1,14 +1,23 @@
 package com.codecool.dungeoncrawl.logic;
 
+
 import com.codecool.dungeoncrawl.logic.actors.Player;
 import com.codecool.dungeoncrawl.logic.actors.Skeleton;
+
+import com.codecool.dungeoncrawl.logic.actors.Ghost;
+import com.codecool.dungeoncrawl.logic.actors.Snake;
+import com.codecool.dungeoncrawl.logic.items.Key;
+import com.codecool.dungeoncrawl.logic.items.Bow;
+import com.codecool.dungeoncrawl.logic.items.Sword;
+import com.codecool.dungeoncrawl.logic.objects.ClosedDoor;
+
 
 import java.io.InputStream;
 import java.util.Scanner;
 
 public class MapLoader {
     public static GameMap loadMap() {
-        InputStream is = MapLoader.class.getResourceAsStream("/map.txt");
+        InputStream is = MapLoader.class.getResourceAsStream("/cringe.txt");
         Scanner scanner = new Scanner(is);
         int width = scanner.nextInt();
         int height = scanner.nextInt();
@@ -37,7 +46,32 @@ public class MapLoader {
                             break;
                         case '@':
                             cell.setType(CellType.FLOOR);
-                            map.setPlayer(new Player(cell, "Player"));
+//                            map.setPlayer(new Player(cell, "Player"));
+                            map.setPlayer(new Player(cell));
+                            break;
+                        case '$':
+                            cell.setType(CellType.FLOOR);
+                            new Key(cell);
+                            break;
+                        case '*':
+                            cell.setType(CellType.FLOOR);
+                            new Sword(cell);
+                            break;
+                        case '5':
+                            cell.setType(CellType.FLOOR);
+                            new Bow(cell);
+                            break;
+                        case '6':
+                            cell.setType(CellType.FLOOR);
+                            new Snake(cell);
+                            break;
+                        case '7':
+                            cell.setType(CellType.FLOOR);
+                            new ClosedDoor(cell);
+                            break;
+                        case 'a':
+                            cell.setType(CellType.FLOOR);
+                            map.setGhost(new Ghost(cell));
                             break;
                         default:
                             throw new RuntimeException("Unrecognized character: '" + line.charAt(x) + "'");
