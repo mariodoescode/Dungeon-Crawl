@@ -2,8 +2,8 @@ package com.codecool.dungeoncrawl.logic.items;
 
 import com.codecool.dungeoncrawl.logic.Cell;
 
-public class Key extends Item{
-    public Key(Cell cell) {
+public class goldenKey extends Item{
+    public goldenKey(Cell cell) {
         super(cell);
     }
     @Override

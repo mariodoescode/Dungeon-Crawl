@@ -159,7 +159,7 @@ public class Main extends Application {
                 } else if (cell.getObject() != null) {
                     if (map.getPlayer().getItems().length > 0) {
                         for (Item item:map.getPlayer().getItems()) {
-                            if (item.getTileName().equals("key")) {
+                            if (item.getTileName().equals("golden-key")) {
                                 Tiles.drawTile(context, new OpenedDoor(cell), x, y);
                             } else {
                                 Tiles.drawTile(context, cell.getObject(), x, y);
