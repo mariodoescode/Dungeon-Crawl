@@ -18,6 +18,9 @@ import javafx.scene.canvas.GraphicsContext;
 
 
 import java.awt.*;
+import java.io.File;
+import java.nio.file.Paths;
+import java.util.Objects;
 import java.util.concurrent.ThreadLocalRandom;
 import javafx.scene.control.Label;
 import javafx.scene.input.KeyCode;
@@ -25,6 +28,8 @@ import javafx.scene.image.Image;
 import javafx.scene.input.KeyCodeCombination;
 import javafx.scene.input.KeyCombination;
 import javafx.scene.control.Button;
+import javafx.scene.media.Media;
+import javafx.scene.media.MediaPlayer;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
@@ -46,6 +51,8 @@ public class Main extends Application {
             VISIBLE_TILES_SIZE * Tiles.TILE_WIDTH,
             VISIBLE_TILES_SIZE * Tiles.TILE_WIDTH);
     Image icon;
+    Media backgroundMedia;
+    MediaPlayer backgroundMediaPlayer;
 
     GraphicsContext context = canvas.getGraphicsContext2D();
     Label healthLabel = new Label();
@@ -79,11 +86,14 @@ public class Main extends Application {
         BorderPane borderPane = new BorderPane();
 
         icon = new Image("/images/game-icon.png");
+        backgroundMedia = new Media(new File("src/main/resources/dummySongChoice.wav").toURI().toString());
+        backgroundMediaPlayer = new MediaPlayer(backgroundMedia);
+        backgroundMediaPlayer.setAutoPlay(true);
 
         borderPane.setCenter(canvas);
         borderPane.setRight(ui);
 
-        Scene scene = new Scene(borderPane);
+        Scene scene = new Scene(borderPane, 800, 600);
         window = primaryStage;
         window.setScene(scene);
         refresh();
@@ -92,9 +102,11 @@ public class Main extends Application {
         window.getIcons().add(icon);
         window.setTitle("Dungeon Crawl");
 
-        window.show();
 
+        window.show();
     }
+
+
 
     private void onKeyReleased(KeyEvent keyEvent) {
         KeyCombination exitCombinationMac = new KeyCodeCombination(KeyCode.W, KeyCombination.SHORTCUT_DOWN);
