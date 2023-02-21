@@ -34,8 +34,6 @@ import javafx.stage.Stage;
 
 
 import java.sql.SQLException;
-import java.util.Random;
-
 
 public class Main extends Application {
     Stage window;
@@ -164,6 +162,9 @@ public class Main extends Application {
                         map.getPlayer().setHealth(33);
                         player.setX(88);
                         player.setY(15);
+                    } else if (cell.getActor().getTileName().equals("player") & cell.getObject().getTileName().equals("ladder")) {
+                        player.setX(153);
+                        player.setY(2);
                     }
                 }
                 if (cell.getActor() != null) {

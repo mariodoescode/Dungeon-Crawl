@@ -32,6 +32,8 @@ public abstract class Actor implements Drawable {
                         if (nextCell.getActor().getTileName().equals("golem-boss")) new SapphireKey(nextCell);
                         if (nextCell.getActor().getTileName().equals("leprechaun-boss")) new CrimsonKey(nextCell);
                         if (nextCell.getActor().getTileName().equals("snake")) new GoldenKey(nextCell);
+                        if (nextCell.getActor().getTileName().equals("theintangible-boss")) new CrimsonKey(nextCell);
+                        if (nextCell.getActor().getTileName().equals("final-boss")) new SapphireKey(nextCell);
                         cell.setActor(null);
                         nextCell.setActor(this);
                         cell = nextCell;
@@ -84,17 +86,18 @@ public abstract class Actor implements Drawable {
         if (cell.getActor() != null) {
             if (cell.getActor().getTileName().equals("skeleton")) {
                 if (nextCell.getObject() != null) return nextCell.getObject().getTileName().equals("closed-door");
-                else if(nextCell.getActor() != null || nextCell.getItem() != null || nextCell.getTileName().equals("wall")) return true;
+                else if(nextCell.getActor() != null
+                        || nextCell.getItem() != null
+                        || nextCell.getTileName().equals("wall")) return true;
                 return false;
 
             }
         }
-        if (nextCell.getObject() != null) return nextCell.getTileName().equals("wall")
-                || nextCell.getObject().getTileName().equals("closed-golden-door")
-                || nextCell.getObject().getTileName().equals("tree")
+        if (nextCell.getObject() != null)
+            return nextCell.getObject().getTileName().equals("closed-golden-door")
                 || nextCell.getObject().getTileName().equals("crimson-door-closed")
                 || nextCell.getObject().getTileName().equals("sapphire-door-closed") ;
-        return nextCell.getTileName().equals("wall");
+        return nextCell.getTileName().equals("wall") ||  nextCell.getTileName().equals("tree");
     }
     public int getHealth() {
         return health;

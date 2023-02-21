@@ -108,12 +108,10 @@ public class MapLoader {
                             new Teleporter(cell);
                         }
                         case ';' -> {
-                            cell.setType(CellType.FLOOR);
-                            new Tree(cell);
+                            cell.setType(CellType.TREE);
                         }
                         case ',' -> {
-                            cell.setType(CellType.FLOOR);
-                            new Grass(cell);
+                            cell.setType(CellType.GRASS);
                         }
                         case '{' -> {
                             cell.setType(CellType.FLOOR);
@@ -122,6 +120,10 @@ public class MapLoader {
                         case ']' -> {
                             cell.setType(CellType.FLOOR);
                             new CrimsonDoorClosed(cell);
+                        }
+                        case 't' -> {
+                            cell.setType(CellType.FLOOR);
+                            new Ladder(cell);
                         }
                         default -> throw new RuntimeException("Unrecognized character: '" + line.charAt(x) + "'");
                     }
