@@ -2,9 +2,9 @@ package com.codecool.dungeoncrawl.logic.actors;
 
 import com.codecool.dungeoncrawl.logic.Cell;
 
-public class leprechaunBoss extends Actor {
+public class LeprechaunBoss extends Actor {
 
-    public leprechaunBoss(Cell cell) {
+    public LeprechaunBoss(Cell cell) {
         super(cell);
         int strength = 10;
         setStrength(strength);

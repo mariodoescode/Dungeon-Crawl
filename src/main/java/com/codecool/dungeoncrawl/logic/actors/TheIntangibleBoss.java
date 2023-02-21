@@ -2,8 +2,8 @@ package com.codecool.dungeoncrawl.logic.actors;
 
 import com.codecool.dungeoncrawl.logic.Cell;
 
-public class theUndyingKing extends Actor {
-    public theUndyingKing(Cell cell) {
+public class TheIntangibleBoss extends Actor {
+    public TheIntangibleBoss(Cell cell) {
         super(cell);
         int strength = 20;
         setStrength(strength);
@@ -14,6 +14,6 @@ public class theUndyingKing extends Actor {
 
     @Override
     public String getTileName() {
-        return "final-boss";
+        return "theintangible-boss";
     }
 }

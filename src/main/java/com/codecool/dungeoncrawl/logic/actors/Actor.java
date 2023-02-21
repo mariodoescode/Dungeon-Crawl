@@ -91,7 +91,7 @@ public abstract class Actor implements Drawable {
 
             }
         }
-        if (nextCell.getObject() != null) return nextCell.getTileName().equals("wall") || nextCell.getObject().getTileName().equals("closed-door");
+        if (nextCell.getObject() != null) return nextCell.getTileName().equals("wall") || nextCell.getObject().getTileName().equals("closed-golden-door") || nextCell.getObject().getTileName().equals("tree");
         return nextCell.getTileName().equals("wall");
     }
     public int getHealth() {

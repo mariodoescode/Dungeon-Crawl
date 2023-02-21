@@ -2,14 +2,14 @@ package com.codecool.dungeoncrawl.logic.actors;
 
 import com.codecool.dungeoncrawl.logic.Cell;
 
-public class golemBoss extends Actor {
+public class GolemBoss extends Actor {
 
 
-    public golemBoss(Cell cell) {
+    public GolemBoss(Cell cell) {
         super(cell);
         int strength = 5;
         setStrength(strength);
-        int health = 15;
+        int health = 20;
         setHealth(health);
 
     }

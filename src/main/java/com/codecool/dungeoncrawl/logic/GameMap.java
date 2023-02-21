@@ -10,18 +10,18 @@ import com.codecool.dungeoncrawl.logic.actors.*;
 
 
 public class GameMap {
-    private int width;
-    private int height;
-    private Cell[][] cells;
+    private final int width;
+    private final int height;
+    private final Cell[][] cells;
 
     private Player player;
     private Ghost ghost;
     private Skeleton skeleton;
-    private golemBoss golemBoss;
-    private leprechaunBoss leprechaunBoss;
-    private darkMageBoss darkMageBoss;
-    private theIntangibleBoss theIntangibleBoss;
-    private theUndyingKing theUndyingKing;
+    private GolemBoss golemBoss;
+    private LeprechaunBoss leprechaunBoss;
+    private DarkMageBoss darkMageBoss;
+    private TheIntangibleBoss theIntangibleBoss;
+    private TheUndyingKing theUndyingKing;
 
     private ArrayList<Skeleton> skeletons = new ArrayList<>();
 
@@ -51,19 +51,19 @@ public class GameMap {
     public void addSkeleton(Skeleton skeleton) {
         skeletons.add(skeleton);
     }
-    public void setGolemBoss(golemBoss golemBoss) {
+    public void setGolemBoss(GolemBoss golemBoss) {
         this.golemBoss = golemBoss;
     }
-    public void setLeprechaunBoss(leprechaunBoss leprechaunBoss) {
+    public void setLeprechaunBoss(LeprechaunBoss leprechaunBoss) {
         this.leprechaunBoss = leprechaunBoss;
     }
-    public void setDarkMageBoss(darkMageBoss darkMageBoss) {
+    public void setDarkMageBoss(DarkMageBoss darkMageBoss) {
         this.darkMageBoss = darkMageBoss;
     }
-    public void setTheIntangibleBoss(theIntangibleBoss theIntangibleBoss) {
+    public void setTheIntangibleBoss(TheIntangibleBoss theIntangibleBoss) {
         this.theIntangibleBoss = theIntangibleBoss;
     }
-    public void setFinalBoss(theUndyingKing theUndyingKing) {
+    public void setFinalBoss(TheUndyingKing theUndyingKing) {
         this.theUndyingKing = theUndyingKing;
     }
 

@@ -7,7 +7,7 @@ public class Snake extends Actor{
         super(cell);
         int strength = 25;
         setStrength(strength);
-        int health = 55;
+        int health = 35;
         setHealth(health);
     }
 
