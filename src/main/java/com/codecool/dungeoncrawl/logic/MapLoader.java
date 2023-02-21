@@ -4,8 +4,7 @@ package com.codecool.dungeoncrawl.logic;
 import com.codecool.dungeoncrawl.logic.actors.*;
 
 import com.codecool.dungeoncrawl.logic.items.*;
-import com.codecool.dungeoncrawl.logic.objects.ClosedDoor;
-import com.codecool.dungeoncrawl.logic.objects.Teleporter;
+import com.codecool.dungeoncrawl.logic.objects.*;
 
 
 import java.io.InputStream;
@@ -33,25 +32,12 @@ public class MapLoader {
                         case '.' -> cell.setType(CellType.FLOOR);
                         case 's' -> {
                             cell.setType(CellType.FLOOR);
-                            map.setSkeleton(new Skeleton(cell));
                             map.addSkeleton(new Skeleton(cell));
                         }
                         case '@' -> {
                             cell.setType(CellType.FLOOR);
 //                            map.setPlayer(new Player(cell, "Player"));
                             map.setPlayer(new Player(cell));
-                        }
-                        case '$' -> {
-                            cell.setType(CellType.FLOOR);
-                            new goldenKey(cell);
-                        }
-                        case '|' -> {
-                            cell.setType(CellType.FLOOR);
-                            new sapphireKey(cell);
-                        }
-                        case '>' -> {
-                            cell.setType(CellType.FLOOR);
-                            new crimsonKey(cell);
                         }
                         case '*' -> {
                             cell.setType(CellType.FLOOR);
@@ -75,7 +61,7 @@ public class MapLoader {
                         }
                         case '1' -> {
                             cell.setType(CellType.FLOOR);
-                            new chestPlate(cell);
+                            new ChestPlate(cell);
                         }
                         case '2' -> {
                             cell.setType(CellType.FLOOR);
@@ -91,23 +77,23 @@ public class MapLoader {
                         }
                         case 'g' -> {
                             cell.setType(CellType.FLOOR);
-                            map.setGolemBoss(new golemBoss(cell));
+                            map.setGolemBoss(new GolemBoss(cell));
                         }
                         case 'l' -> {
                             cell.setType(CellType.FLOOR);
-                            map.setLeprechaunBoss(new leprechaunBoss(cell));
+                            map.setLeprechaunBoss(new LeprechaunBoss(cell));
                         }
                         case 'm' -> {
                             cell.setType(CellType.FLOOR);
-                            map.setDarkMageBoss(new darkMageBoss(cell));
+                            map.setDarkMageBoss(new DarkMageBoss(cell));
                         }
                         case 'i' -> {
                             cell.setType(CellType.FLOOR);
-                            map.setTheIntangibleBoss(new theIntangibleBoss(cell));
+                            map.setTheIntangibleBoss(new TheIntangibleBoss(cell));
                         }
                         case 'k' -> {
                             cell.setType(CellType.FLOOR);
-                            map.setFinalBoss(new theUndyingKing(cell));
+                            map.setFinalBoss(new TheUndyingKing(cell));
                         }
                         case '8' -> {
                             cell.setType(CellType.FLOOR);
@@ -120,6 +106,22 @@ public class MapLoader {
                         case 'x' -> {
                             cell.setType(CellType.FLOOR);
                             new Teleporter(cell);
+                        }
+                        case ';' -> {
+                            cell.setType(CellType.FLOOR);
+                            new Tree(cell);
+                        }
+                        case ',' -> {
+                            cell.setType(CellType.FLOOR);
+                            new Grass(cell);
+                        }
+                        case '{' -> {
+                            cell.setType(CellType.FLOOR);
+                            new SapphireDoorClosed(cell);
+                        }
+                        case ']' -> {
+                            cell.setType(CellType.FLOOR);
+                            new CrimsonDoorClosed(cell);
                         }
                         default -> throw new RuntimeException("Unrecognized character: '" + line.charAt(x) + "'");
                     }

@@ -49,6 +49,12 @@ public class Tiles {
         tileMap.put("scythe", new Tile(4, 24));
         tileMap.put("poleaxe", new Tile(7, 29));
         tileMap.put("teleporter", new Tile(21,24));
+        tileMap.put("grass", new Tile(6,0));
+        tileMap.put("tree", new Tile(3,1));
+        tileMap.put("sapphire-door", new Tile(2,9));
+        tileMap.put("sapphire-door-closed", new Tile(1,9));
+        tileMap.put("crimson-door", new Tile(22,11));
+        tileMap.put("crimson-door-closed", new Tile(13,18));
     }
 
     public static void drawTile(GraphicsContext context, Drawable d, int x, int y) {

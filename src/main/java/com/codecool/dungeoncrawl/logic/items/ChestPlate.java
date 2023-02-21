@@ -2,12 +2,15 @@ package com.codecool.dungeoncrawl.logic.items;
 
 import com.codecool.dungeoncrawl.logic.Cell;
 
-public class goldenKey extends Item{
-    public goldenKey(Cell cell) {
+public class ChestPlate extends Item{
+
+    public ChestPlate(Cell cell) {
         super(cell);
     }
+
     @Override
     public String getTileName() {
-        return "key";
+        return "chest-plate";
     }
 }
+

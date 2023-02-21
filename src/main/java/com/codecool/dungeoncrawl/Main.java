@@ -18,9 +18,12 @@ import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
+
+import java.awt.*;
 import java.util.concurrent.ThreadLocalRandom;
 import javafx.scene.control.Label;
 import javafx.scene.input.KeyCode;
+import javafx.scene.image.Image;
 import javafx.scene.input.KeyCodeCombination;
 import javafx.scene.input.KeyCombination;
 import javafx.scene.control.Button;
@@ -29,6 +32,8 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
+
+import javax.swing.*;
 import java.util.Arrays;
 
 import java.sql.SQLException;
@@ -43,6 +48,7 @@ public class Main extends Application {
     Canvas canvas = new Canvas(
             VISIBLE_TILES_SIZE * Tiles.TILE_WIDTH,
             VISIBLE_TILES_SIZE * Tiles.TILE_WIDTH);
+    Image icon;
 
     GraphicsContext context = canvas.getGraphicsContext2D();
     Label healthLabel = new Label();
@@ -75,6 +81,8 @@ public class Main extends Application {
 
         BorderPane borderPane = new BorderPane();
 
+        icon = new Image("/images/game-icon.png");
+
         borderPane.setCenter(canvas);
         borderPane.setRight(ui);
 
@@ -84,6 +92,7 @@ public class Main extends Application {
         refresh();
         scene.setOnKeyPressed(this::onKeyPressed);
 
+        window.getIcons().add(icon);
         window.setTitle("Dungeon Crawl");
 
         window.show();
@@ -154,7 +163,7 @@ public class Main extends Application {
 
                 Cell cell = map.getCell(middleX - VISIBLE_TILES_SIZE / 2 + x, middleY - VISIBLE_TILES_SIZE / 2 + y);
                 if (cell.getActor() != null & cell.getObject() != null) {
-                    if (cell.getActor().getTileName() == "player" & cell.getObject().getTileName() == "teleporter") {
+                    if (cell.getActor().getTileName().equals("player") & cell.getObject().getTileName().equals("teleporter")) {
                         player.setX(88);
                         player.setY(15);
                     }
@@ -169,12 +178,12 @@ public class Main extends Application {
                     if (map.getPlayer().getItems().length > 0) {
                         for (Item item:map.getPlayer().getItems()) {
                             if (item != null) {
-                            if (item.getTileName().equals("golden-key")) {
-                                Tiles.drawTile(context, new OpenedDoor(cell), x, y);
-                            } else {
-                                Tiles.drawTile(context, cell.getObject(), x, y);
-                            }
-                        }}
+                                if (item.getTileName().equals("golden-key")) {
+                                    Tiles.drawTile(context, new OpenedDoor(cell), x, y);
+                                } else {
+                                    Tiles.drawTile(context, cell.getObject(), x, y);
+                                }
+                            }}
                     } else {
                         Tiles.drawTile(context, cell.getObject(), x, y);
                     }
@@ -185,16 +194,16 @@ public class Main extends Application {
                 if (cell.getActor() != null & cell.getItem() != null) {
                     pickUpButton.setOnAction(e -> {
                         if(cell.getActor() != null ) {
-                        cell.getActor().addItem(cell.getItem());
-                        cell.getActor().setStats(cell.getItem(), cell.getActor());
-                        cell.removeItem();
-                    }});
+                            cell.getActor().addItem(cell.getItem());
+                            cell.getActor().setStats(cell.getItem(), cell.getActor());
+                            cell.removeItem();
+                        }});
                 }
 
             }
             healthLabel.setText("" + map.getPlayer().getHealth());
-            inventory.setText("" + map.getPlayer().getInventory());
             strength.setText("" + map.getPlayer().getStrength());
+            inventory.setText("" + map.getPlayer().getInventory());
         }
     }
 
