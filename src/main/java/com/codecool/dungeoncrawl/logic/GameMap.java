@@ -1,11 +1,7 @@
 package com.codecool.dungeoncrawl.logic;
 
 
-import com.codecool.dungeoncrawl.logic.actors.Actor;
-import com.codecool.dungeoncrawl.logic.actors.Ghost;
-import com.codecool.dungeoncrawl.logic.actors.Player;
-import com.codecool.dungeoncrawl.logic.actors.Skeleton;
-
+import com.codecool.dungeoncrawl.logic.actors.*;
 
 
 public class GameMap {
@@ -16,6 +12,12 @@ public class GameMap {
     private Player player;
     private Ghost ghost;
     private Skeleton skeleton;
+    private golemBoss golemBoss;
+    private leprechaunBoss leprechaunBoss;
+    private darkMageBoss darkMageBoss;
+    private theIntangibleBoss theIntangibleBoss;
+    private theUndyingKing theUndyingKing;
+
 
 
     public GameMap(int width, int height, CellType defaultCellType) {
@@ -42,6 +44,21 @@ public class GameMap {
     }
     public void setSkeleton(Skeleton skeleton) {
         this.skeleton = skeleton;
+    }
+    public void setGolemBoss(golemBoss golemBoss) {
+        this.golemBoss = golemBoss;
+    }
+    public void setLeprechaunBoss(leprechaunBoss leprechaunBoss) {
+        this.leprechaunBoss = leprechaunBoss;
+    }
+    public void setDarkMageBoss(darkMageBoss darkMageBoss) {
+        this.darkMageBoss = darkMageBoss;
+    }
+    public void setTheIntangibleBoss(theIntangibleBoss theIntangibleBoss) {
+        this.theIntangibleBoss = theIntangibleBoss;
+    }
+    public void setFinalBoss(theUndyingKing theUndyingKing) {
+        this.theUndyingKing = theUndyingKing;
     }
 
 

@@ -2,17 +2,19 @@ package com.codecool.dungeoncrawl.logic.actors;
 
 import com.codecool.dungeoncrawl.logic.Cell;
 
-public class Snake extends Actor{
-    public Snake(Cell cell) {
+public class darkMageBoss extends Actor {
+
+    public darkMageBoss(Cell cell) {
         super(cell);
-        int strength = 25;
+        int strength = 15;
         setStrength(strength);
-        int health = 55;
+        int health = 35;
         setHealth(health);
+
     }
 
     @Override
     public String getTileName() {
-        return "snake";
+        return "darkmage-boss";
     }
 }

@@ -1,11 +1,8 @@
 package com.codecool.dungeoncrawl.logic;
 
 
-import com.codecool.dungeoncrawl.logic.actors.Player;
-import com.codecool.dungeoncrawl.logic.actors.Skeleton;
+import com.codecool.dungeoncrawl.logic.actors.*;
 
-import com.codecool.dungeoncrawl.logic.actors.Ghost;
-import com.codecool.dungeoncrawl.logic.actors.Snake;
 import com.codecool.dungeoncrawl.logic.items.*;
 import com.codecool.dungeoncrawl.logic.objects.ClosedDoor;
 
@@ -35,7 +32,7 @@ public class MapLoader {
                         case '.' -> cell.setType(CellType.FLOOR);
                         case 's' -> {
                             cell.setType(CellType.FLOOR);
-                            new Skeleton(cell);
+                            map.setSkeleton(new Skeleton(cell));
                         }
                         case '@' -> {
                             cell.setType(CellType.FLOOR);
@@ -89,6 +86,34 @@ public class MapLoader {
                         case '4' -> {
                             cell.setType(CellType.FLOOR);
                             new Boots(cell);
+                        }
+                        case 'g' -> {
+                            cell.setType(CellType.FLOOR);
+                            map.setGolemBoss(new golemBoss(cell));
+                        }
+                        case 'l' -> {
+                            cell.setType(CellType.FLOOR);
+                            map.setLeprechaunBoss(new leprechaunBoss(cell));
+                        }
+                        case 'm' -> {
+                            cell.setType(CellType.FLOOR);
+                            map.setDarkMageBoss(new darkMageBoss(cell));
+                        }
+                        case 'i' -> {
+                            cell.setType(CellType.FLOOR);
+                            map.setTheIntangibleBoss(new theIntangibleBoss(cell));
+                        }
+                        case 'k' -> {
+                            cell.setType(CellType.FLOOR);
+                            map.setFinalBoss(new theUndyingKing(cell));
+                        }
+                        case '8' -> {
+                            cell.setType(CellType.FLOOR);
+                            new Scythe(cell);
+                        }
+                        case '9' -> {
+                            cell.setType(CellType.FLOOR);
+                            new Poleaxe(cell);
                         }
                         default -> throw new RuntimeException("Unrecognized character: '" + line.charAt(x) + "'");
                     }

@@ -103,7 +103,8 @@ public abstract class Actor implements Drawable {
             case "helmet" -> actor.setHealth(5);
             case "boots" -> actor.setHealth(2);
             case "shield" -> actor.setHealth(8);
-
+            case "scythe" -> actor.setStrength(15);
+            case "poleaxe" -> actor.setStrength(25);
         }
 
     }

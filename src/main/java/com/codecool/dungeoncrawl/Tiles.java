@@ -41,6 +41,13 @@ public class Tiles {
         tileMap.put("helmet", new Tile(4,22));
         tileMap.put("boots", new Tile(8,22));
         tileMap.put("shield", new Tile(7,26));
+        tileMap.put("golem-boss", new Tile(31, 6));
+        tileMap.put("leprechaun-boss", new Tile(26, 9));
+        tileMap.put("darkmage-boss", new Tile(24, 1));
+        tileMap.put("theintangible-boss", new Tile(24, 8));
+        tileMap.put("final-boss", new Tile(28, 3));
+        tileMap.put("scythe", new Tile(4, 24));
+        tileMap.put("poleaxe", new Tile(7, 29));
     }
 
     public static void drawTile(GraphicsContext context, Drawable d, int x, int y) {
