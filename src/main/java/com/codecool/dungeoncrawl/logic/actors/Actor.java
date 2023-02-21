@@ -1,12 +1,13 @@
 package com.codecool.dungeoncrawl.logic.actors;
 
 import com.codecool.dungeoncrawl.logic.Cell;
-import com.codecool.dungeoncrawl.logic.CellType;
 import com.codecool.dungeoncrawl.logic.Drawable;
+import com.codecool.dungeoncrawl.logic.items.CrimsonKey;
+import com.codecool.dungeoncrawl.logic.items.GoldenKey;
 import com.codecool.dungeoncrawl.logic.items.Item;
+import com.codecool.dungeoncrawl.logic.items.SapphireKey;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 
 
 public abstract class Actor implements Drawable {
@@ -28,6 +29,11 @@ public abstract class Actor implements Drawable {
             if (nextCell.getActor() != null) {
                     battle(cell, nextCell);
                     if (nextCell.getActor().getHealth() <= 0 & cell.getActor().getHealth() > 0) {
+                        if (nextCell.getActor().getTileName().equals("golem-boss")) new SapphireKey(nextCell);
+                        if (nextCell.getActor().getTileName().equals("leprechaun-boss")) new CrimsonKey(nextCell);
+                        if (nextCell.getActor().getTileName().equals("snake")) new GoldenKey(nextCell);
+                        if (nextCell.getActor().getTileName().equals("theintangible-boss")) new CrimsonKey(nextCell);
+                        if (nextCell.getActor().getTileName().equals("final-boss")) new SapphireKey(nextCell);
                         cell.setActor(null);
                         nextCell.setActor(this);
                         cell = nextCell;
@@ -75,24 +81,23 @@ public abstract class Actor implements Drawable {
         this.health = health;
     }
 
-    private boolean playerHasItem(String weapon) {
-        for (Item item : inventory) {
-            if (item.getTileName().equals(weapon)) return true;
-        }
-        return false;
-    }
 
     boolean canHeroMove(Cell nextCell) {
         if (cell.getActor() != null) {
             if (cell.getActor().getTileName().equals("skeleton")) {
                 if (nextCell.getObject() != null) return nextCell.getObject().getTileName().equals("closed-door");
-                else if(nextCell.getActor() != null || nextCell.getItem() != null || nextCell.getTileName().equals("wall")) return true;
+                else if(nextCell.getActor() != null
+                        || nextCell.getItem() != null
+                        || nextCell.getTileName().equals("wall")) return true;
                 return false;
 
             }
         }
-        if (nextCell.getObject() != null) return nextCell.getTileName().equals("wall") || nextCell.getObject().getTileName().equals("closed-golden-door") || nextCell.getObject().getTileName().equals("tree");
-        return nextCell.getTileName().equals("wall");
+        if (nextCell.getObject() != null)
+            return nextCell.getObject().getTileName().equals("closed-golden-door")
+                || nextCell.getObject().getTileName().equals("crimson-door-closed")
+                || nextCell.getObject().getTileName().equals("sapphire-door-closed") ;
+        return nextCell.getTileName().equals("wall") ||  nextCell.getTileName().equals("tree");
     }
     public int getHealth() {
         return health;
@@ -162,9 +167,14 @@ public abstract class Actor implements Drawable {
         return inventory;
     }
 
-    public void removeItem(String name) {
-        for (int i = 0; i < inventory.size(); i++) {
-            if (inventory.equals("name")) inventory.remove(i);
+    public void removeItems() {
+        ArrayList<Item> oldInventory = inventory;
+        this.inventory = new ArrayList<>();
+        for (Item item: oldInventory) {
+            if (!(item.getTileName().equals("sapphire-key"))
+                    & !(item.getTileName().equals("crimson-key"))
+                    & !(item.getTileName().equals("golden-key")))
+                inventory.add(item);
         }
     }
 
