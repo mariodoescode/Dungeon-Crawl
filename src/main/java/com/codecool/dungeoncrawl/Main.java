@@ -7,18 +7,14 @@ import com.codecool.dungeoncrawl.logic.GameMap;
 import com.codecool.dungeoncrawl.logic.MapLoader;
 
 import com.codecool.dungeoncrawl.logic.actors.Player;
-import com.codecool.dungeoncrawl.logic.actors.Skeleton;
+import com.codecool.dungeoncrawl.logic.items.Item;
+import com.codecool.dungeoncrawl.logic.objects.OpenedGoldenDoor;
 import javafx.application.Application;
 
-import com.codecool.dungeoncrawl.logic.items.Item;
-import com.codecool.dungeoncrawl.logic.objects.OpenedDoor;
-
 import javafx.geometry.Insets;
-import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
-import java.util.concurrent.ThreadLocalRandom;
 import javafx.scene.control.Label;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyCodeCombination;
@@ -29,7 +25,6 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
-import java.util.Arrays;
 
 import java.sql.SQLException;
 import java.util.Random;
@@ -166,19 +161,19 @@ public class Main extends Application {
                 } else if (cell.getItem() != null) {
                     Tiles.drawTile(context, cell.getItem(), x, y);
                 } else if (cell.getObject() != null) {
-                    if (map.getPlayer().getItems().length > 0) {
-                        for (Item item:map.getPlayer().getItems()) {
-                            if (item != null) {
+                        for (Item item : map.getPlayer().getItems()) {
                             if (item.getTileName().equals("golden-key")) {
-                                Tiles.drawTile(context, new OpenedDoor(cell), x, y);
-                            } else {
-                                Tiles.drawTile(context, cell.getObject(), x, y);
+                                Tiles.drawTile(context, new OpenedGoldenDoor(cell), x,y);
+                                map.getPlayer().removeItem("golden-key");
+                            } else if (item.getTileName().equals("sapphire-key")) {
+//                                Tiles.drawTile(context, new OpenedSapphireDoor(cell), x, y);
+                                map.getPlayer().removeItem("saphhire-key");
+                            } else if (item.getTileName().equals("crimson-key")) {
+//                                Tiles.drawTile(context, new OpenedCrimsonDoor(cell), x, y);
+                                map.getPlayer().removeItem("crimson-key");
                             }
-                        }}
-                    } else {
-                        Tiles.drawTile(context, cell.getObject(), x, y);
-                    }
-                }
+                            Tiles.drawTile(context, cell.getObject(), x, y);
+                }Tiles.drawTile(context, cell.getObject(), x, y);}
                 else {
                     Tiles.drawTile(context, cell, x, y);
                 }

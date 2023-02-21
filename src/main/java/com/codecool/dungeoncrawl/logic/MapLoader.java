@@ -4,7 +4,7 @@ package com.codecool.dungeoncrawl.logic;
 import com.codecool.dungeoncrawl.logic.actors.*;
 
 import com.codecool.dungeoncrawl.logic.items.*;
-import com.codecool.dungeoncrawl.logic.objects.ClosedDoor;
+import com.codecool.dungeoncrawl.logic.objects.ClosedGoldenDoor;
 import com.codecool.dungeoncrawl.logic.objects.Teleporter;
 
 
@@ -33,7 +33,6 @@ public class MapLoader {
                         case '.' -> cell.setType(CellType.FLOOR);
                         case 's' -> {
                             cell.setType(CellType.FLOOR);
-                            map.setSkeleton(new Skeleton(cell));
                             map.addSkeleton(new Skeleton(cell));
                         }
                         case '@' -> {
@@ -67,7 +66,7 @@ public class MapLoader {
                         }
                         case '7' -> {
                             cell.setType(CellType.FLOOR);
-                            new ClosedDoor(cell);
+                            new ClosedGoldenDoor(cell);
                         }
                         case 'a' -> {
                             cell.setType(CellType.FLOOR);

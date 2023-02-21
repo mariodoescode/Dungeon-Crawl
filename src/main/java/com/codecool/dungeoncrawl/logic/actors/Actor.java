@@ -4,6 +4,8 @@ import com.codecool.dungeoncrawl.logic.Cell;
 import com.codecool.dungeoncrawl.logic.CellType;
 import com.codecool.dungeoncrawl.logic.Drawable;
 import com.codecool.dungeoncrawl.logic.items.Item;
+
+import java.util.ArrayList;
 import java.util.Arrays;
 
 
@@ -11,7 +13,7 @@ public abstract class Actor implements Drawable {
     Cell cell;
     private int health = 10;
     private int strength;
-    private Item[] inventory = new Item[0];
+    private ArrayList<Item> inventory = new ArrayList<>();
 
 
     public Actor(Cell cell) {
@@ -24,13 +26,12 @@ public abstract class Actor implements Drawable {
 
         if (!(canHeroMove(nextCell))) {
             if (nextCell.getActor() != null) {
-                if (nextCell.getActor().getTileName().equals("skeleton")) {
                     battle(cell, nextCell);
                     if (nextCell.getActor().getHealth() <= 0 & cell.getActor().getHealth() > 0) {
                         cell.setActor(null);
                         nextCell.setActor(this);
                         cell = nextCell;
-                }}
+                }
             } else {
                 cell.setActor(null);
                 nextCell.setActor(this);
@@ -128,9 +129,7 @@ public abstract class Actor implements Drawable {
     }
 
     public void addItem(Item item) {
-        Item[] array = Arrays.copyOf(inventory,inventory.length+1);
-        array[inventory.length] = item;
-        inventory = array;
+        inventory.add(item);
     }
 
     public void setStats(Item item, Actor actor) {
@@ -154,13 +153,19 @@ public abstract class Actor implements Drawable {
         for (Item item : inventory) {
             if (item != null) {
                 items.append(item.getTileName());
-                items.append(" ");
+                items.append("\n");
             }
         }
         return items;
     }
-    public Item[] getItems() {
+    public ArrayList<Item> getItems() {
         return inventory;
+    }
+
+    public void removeItem(String name) {
+        for (int i = 0; i < inventory.size(); i++) {
+            if (inventory.equals("name")) inventory.remove(i);
+        }
     }
 
 }

@@ -8,6 +8,6 @@ public class goldenKey extends Item{
     }
     @Override
     public String getTileName() {
-        return "key";
+        return "golden-key";
     }
 }
