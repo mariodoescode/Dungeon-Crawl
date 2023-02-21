@@ -102,33 +102,32 @@ public class Main extends Application {
 
     private void onKeyPressed(KeyEvent keyEvent) {
         switch (keyEvent.getCode()) {
-            case UP:
+            case UP -> {
                 map.getPlayer().move(0, -1);
 //                for (Skeleton skeleton : map.getSkeleton()) {
 //                    skeleton.SkeletonMovement(ThreadLocalRandom.current().nextInt(-1, 1 + 1), ThreadLocalRandom.current().nextInt(-1, 1 + 1));
 //                }
                 refresh();
-                break;
-            case DOWN:
+            }
+            case DOWN -> {
                 map.getPlayer().move(0, 1);
 
                 refresh();
-                break;
-            case LEFT:
+            }
+            case LEFT -> {
                 map.getPlayer().move(-1, 0);
 
                 refresh();
-                break;
-            case RIGHT:
+            }
+            case RIGHT -> {
                 map.getPlayer().move(1, 0);
 
                 refresh();
-                break;
-            case S:
+            }
+            case S -> {
                 Player player = map.getPlayer();
+            }
 //                dbManager.savePlayer(player);
-                break;
-
         }
     }
 
