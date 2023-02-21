@@ -9,6 +9,7 @@ public class Ghost extends Actor{
 
     public Ghost(Cell cell) {
         super(cell);
+        move();
     }
 
     public void move() {

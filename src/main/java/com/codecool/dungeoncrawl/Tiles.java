@@ -48,6 +48,7 @@ public class Tiles {
         tileMap.put("final-boss", new Tile(28, 3));
         tileMap.put("scythe", new Tile(4, 24));
         tileMap.put("poleaxe", new Tile(7, 29));
+        tileMap.put("teleporter", new Tile(21,24));
     }
 
     public static void drawTile(GraphicsContext context, Drawable d, int x, int y) {

@@ -5,6 +5,7 @@ import com.codecool.dungeoncrawl.logic.actors.*;
 
 import com.codecool.dungeoncrawl.logic.items.*;
 import com.codecool.dungeoncrawl.logic.objects.ClosedDoor;
+import com.codecool.dungeoncrawl.logic.objects.Teleporter;
 
 
 import java.io.InputStream;
@@ -33,6 +34,7 @@ public class MapLoader {
                         case 's' -> {
                             cell.setType(CellType.FLOOR);
                             map.setSkeleton(new Skeleton(cell));
+                            map.addSkeleton(new Skeleton(cell));
                         }
                         case '@' -> {
                             cell.setType(CellType.FLOOR);
@@ -114,6 +116,10 @@ public class MapLoader {
                         case '9' -> {
                             cell.setType(CellType.FLOOR);
                             new Poleaxe(cell);
+                        }
+                        case 'x' -> {
+                            cell.setType(CellType.FLOOR);
+                            new Teleporter(cell);
                         }
                         default -> throw new RuntimeException("Unrecognized character: '" + line.charAt(x) + "'");
                     }

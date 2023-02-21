@@ -1,6 +1,11 @@
 package com.codecool.dungeoncrawl.logic;
 
 
+import com.codecool.dungeoncrawl.logic.actors.Ghost;
+import com.codecool.dungeoncrawl.logic.actors.Player;
+import com.codecool.dungeoncrawl.logic.actors.Skeleton;
+
+import java.util.ArrayList;
 import com.codecool.dungeoncrawl.logic.actors.*;
 
 
@@ -18,6 +23,7 @@ public class GameMap {
     private theIntangibleBoss theIntangibleBoss;
     private theUndyingKing theUndyingKing;
 
+    private ArrayList<Skeleton> skeletons = new ArrayList<>();
 
 
     public GameMap(int width, int height, CellType defaultCellType) {
@@ -42,8 +48,8 @@ public class GameMap {
     public void setGhost(Ghost ghost) {
         this.ghost = ghost;
     }
-    public void setSkeleton(Skeleton skeleton) {
-        this.skeleton = skeleton;
+    public void addSkeleton(Skeleton skeleton) {
+        skeletons.add(skeleton);
     }
     public void setGolemBoss(golemBoss golemBoss) {
         this.golemBoss = golemBoss;
@@ -80,8 +86,8 @@ public class GameMap {
     }
 
 
-    public Actor getSkeleton() {
-        return skeleton;
+    public ArrayList<Skeleton> getSkeleton() {
+        return skeletons;
     }
 
 }
