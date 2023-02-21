@@ -8,7 +8,9 @@ import com.codecool.dungeoncrawl.logic.MapLoader;
 
 import com.codecool.dungeoncrawl.logic.actors.Player;
 import com.codecool.dungeoncrawl.logic.items.Item;
+import com.codecool.dungeoncrawl.logic.objects.CrimsonDoor;
 import com.codecool.dungeoncrawl.logic.objects.OpenedGoldenDoor;
+import com.codecool.dungeoncrawl.logic.objects.SapphireDoor;
 import javafx.application.Application;
 
 import javafx.geometry.Insets;
@@ -17,8 +19,6 @@ import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 
 
-import java.awt.*;
-import java.util.concurrent.ThreadLocalRandom;
 import javafx.scene.control.Label;
 import javafx.scene.input.KeyCode;
 import javafx.scene.image.Image;
@@ -38,7 +38,6 @@ import java.util.Random;
 
 
 public class Main extends Application {
-    Random random = new Random();
     Stage window;
     public static int VISIBLE_TILES_SIZE = 14;
     GameMap map = MapLoader.loadMap();
@@ -161,6 +160,8 @@ public class Main extends Application {
                 Cell cell = map.getCell(middleX - VISIBLE_TILES_SIZE / 2 + x, middleY - VISIBLE_TILES_SIZE / 2 + y);
                 if (cell.getActor() != null & cell.getObject() != null) {
                     if (cell.getActor().getTileName().equals("player") & cell.getObject().getTileName().equals("teleporter")) {
+                        map.getPlayer().removeItems();
+                        map.getPlayer().setHealth(33);
                         player.setX(88);
                         player.setY(15);
                     }
@@ -168,35 +169,25 @@ public class Main extends Application {
                 if (cell.getActor() != null) {
                     if (cell.getActor().getHealth() > 0) {
                         Tiles.drawTile(context, cell.getActor(), x, y);
+                    } else {
+                        exit();
                     }
                 } else if (cell.getItem() != null) {
                     Tiles.drawTile(context, cell.getItem(), x, y);
                 } else if (cell.getObject() != null) {
                         for (Item item : map.getPlayer().getItems()) {
-                            if (item.getTileName().equals("golden-key")) {
-                                Tiles.drawTile(context, new OpenedGoldenDoor(cell), x,y);
-                                map.getPlayer().removeItem("golden-key");
-                            } else if (item.getTileName().equals("sapphire-key")) {
-//                                Tiles.drawTile(context, new OpenedSapphireDoor(cell), x, y);
-                                map.getPlayer().removeItem("saphhire-key");
-                            } else if (item.getTileName().equals("crimson-key")) {
-//                                Tiles.drawTile(context, new OpenedCrimsonDoor(cell), x, y);
-                                map.getPlayer().removeItem("crimson-key");
-                            }
-                            Tiles.drawTile(context, cell.getObject(), x, y);
-                } Tiles.drawTile(context, cell.getObject(), x, y);
-                    if (map.getPlayer().getItems().size() > 0) {
-                        for (Item item:map.getPlayer().getItems()) {
                             if (item != null) {
-                                if (item.getTileName().equals("golden-key")) {
-                                    Tiles.drawTile(context, new OpenedGoldenDoor(cell), x, y);
-                                } else {
-                                    Tiles.drawTile(context, cell.getObject(), x, y);
+                                if (item.getTileName().equals("golden-key") & cell.getObject().getTileName().equals("closed-golden-door")) {
+                                    Tiles.drawTile(context, new OpenedGoldenDoor(cell), x,y);
+                                } else if (item.getTileName().equals("sapphire-key")  & cell.getObject().getTileName().equals("sapphire-door-closed")) {
+                                    Tiles.drawTile(context, new SapphireDoor(cell), x, y);
+                                } else if (item.getTileName().equals("crimson-key")  & cell.getObject().getTileName().equals("crimson-door-closed")) {
+                                    Tiles.drawTile(context, new CrimsonDoor(cell), x, y);
                                 }
-                            }}
-                    } else {
-                        Tiles.drawTile(context, cell.getObject(), x, y);
-                    }
+                                Tiles.drawTile(context, cell.getObject(), x, y);
+                            }
+
+                        } Tiles.drawTile(context, cell.getObject(), x, y);
                 }
                 else {
                     Tiles.drawTile(context, cell, x, y);

@@ -1,12 +1,13 @@
 package com.codecool.dungeoncrawl.logic.actors;
 
 import com.codecool.dungeoncrawl.logic.Cell;
-import com.codecool.dungeoncrawl.logic.CellType;
 import com.codecool.dungeoncrawl.logic.Drawable;
+import com.codecool.dungeoncrawl.logic.items.CrimsonKey;
+import com.codecool.dungeoncrawl.logic.items.GoldenKey;
 import com.codecool.dungeoncrawl.logic.items.Item;
+import com.codecool.dungeoncrawl.logic.items.SapphireKey;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 
 
 public abstract class Actor implements Drawable {
@@ -28,6 +29,9 @@ public abstract class Actor implements Drawable {
             if (nextCell.getActor() != null) {
                     battle(cell, nextCell);
                     if (nextCell.getActor().getHealth() <= 0 & cell.getActor().getHealth() > 0) {
+                        if (nextCell.getActor().getTileName().equals("golem-boss")) new SapphireKey(nextCell);
+                        if (nextCell.getActor().getTileName().equals("leprechaun-boss")) new CrimsonKey(nextCell);
+                        if (nextCell.getActor().getTileName().equals("snake")) new GoldenKey(nextCell);
                         cell.setActor(null);
                         nextCell.setActor(this);
                         cell = nextCell;
@@ -75,12 +79,6 @@ public abstract class Actor implements Drawable {
         this.health = health;
     }
 
-    private boolean playerHasItem(String weapon) {
-        for (Item item : inventory) {
-            if (item.getTileName().equals(weapon)) return true;
-        }
-        return false;
-    }
 
     boolean canHeroMove(Cell nextCell) {
         if (cell.getActor() != null) {
@@ -91,7 +89,11 @@ public abstract class Actor implements Drawable {
 
             }
         }
-        if (nextCell.getObject() != null) return nextCell.getTileName().equals("wall") || nextCell.getObject().getTileName().equals("closed-golden-door") || nextCell.getObject().getTileName().equals("tree");
+        if (nextCell.getObject() != null) return nextCell.getTileName().equals("wall")
+                || nextCell.getObject().getTileName().equals("closed-golden-door")
+                || nextCell.getObject().getTileName().equals("tree")
+                || nextCell.getObject().getTileName().equals("crimson-door-closed")
+                || nextCell.getObject().getTileName().equals("sapphire-door-closed") ;
         return nextCell.getTileName().equals("wall");
     }
     public int getHealth() {
@@ -162,9 +164,14 @@ public abstract class Actor implements Drawable {
         return inventory;
     }
 
-    public void removeItem(String name) {
-        for (int i = 0; i < inventory.size(); i++) {
-            if (inventory.equals("name")) inventory.remove(i);
+    public void removeItems() {
+        ArrayList<Item> oldInventory = inventory;
+        this.inventory = new ArrayList<>();
+        for (Item item: oldInventory) {
+            if (!(item.getTileName().equals("sapphire-key"))
+                    & !(item.getTileName().equals("crimson-key"))
+                    & !(item.getTileName().equals("golden-key")))
+                inventory.add(item);
         }
     }
 
