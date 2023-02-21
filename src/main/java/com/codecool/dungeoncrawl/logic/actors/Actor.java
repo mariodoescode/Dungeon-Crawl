@@ -24,12 +24,13 @@ public abstract class Actor implements Drawable {
 
         if (!(canHeroMove(nextCell))) {
             if (nextCell.getActor() != null) {
-                battle(cell, nextCell);
-                if (nextCell.getActor().getHealth() <= 0 & cell.getActor().getHealth() > 0) {
-                    cell.setActor(null);
-                    nextCell.setActor(this);
-                    cell = nextCell;
-                }
+                if (nextCell.getActor().getTileName().equals("skeleton")) {
+                    battle(cell, nextCell);
+                    if (nextCell.getActor().getHealth() <= 0 & cell.getActor().getHealth() > 0) {
+                        cell.setActor(null);
+                        nextCell.setActor(this);
+                        cell = nextCell;
+                }}
             } else {
                 cell.setActor(null);
                 nextCell.setActor(this);
@@ -39,13 +40,34 @@ public abstract class Actor implements Drawable {
         }
     }
 
+    public void SkeletonMovement(int dx, int dy) {
+        Cell nextCell = cell.getNeighbor(dx, dy);
+        if (!(canHeroMove(nextCell))) {
+            if (nextCell.getActor() != null) {
+                if (nextCell.getActor().getTileName().equals("player")) {
+                    battle(nextCell, cell);
+                    if (nextCell.getActor().getHealth() <= 0 & cell.getActor().getHealth() > 0) {
+                        cell.setActor(null);
+                        nextCell.setActor(this);
+                        cell = nextCell;
+                    }
+                }
+            } else {
+                cell.setActor(null);
+                nextCell.setActor(this);
+                cell = nextCell;
+            }
+        }
+    }
 
 
     private void battle(Cell playerCell, Cell monsterCell) {
-        int monsterHealth = monsterCell.getActor().getHealth() - playerCell.getActor().getStrength();
-        int playerHealth = playerCell.getActor().getHealth() - monsterCell.getActor().getStrength();
-        monsterCell.getActor().setMobHealth(monsterHealth);
-        if (monsterHealth > 0) playerCell.getActor().setMobHealth(playerHealth);
+        if (playerCell != null & monsterCell != null) {
+            int monsterHealth = monsterCell.getActor().getHealth() - playerCell.getActor().getStrength();
+            int playerHealth = playerCell.getActor().getHealth() - monsterCell.getActor().getStrength();
+            monsterCell.getActor().setMobHealth(monsterHealth);
+            if (monsterHealth > 0) playerCell.getActor().setMobHealth(playerHealth);
+        }
     }
 
     private void setMobHealth(int health) {
@@ -60,6 +82,14 @@ public abstract class Actor implements Drawable {
     }
 
     boolean canHeroMove(Cell nextCell) {
+        if (cell.getActor() != null) {
+            if (cell.getActor().getTileName().equals("skeleton")) {
+                if (nextCell.getObject() != null) return nextCell.getObject().getTileName().equals("closed-door");
+                else if(nextCell.getActor() != null || nextCell.getItem() != null || nextCell.getTileName().equals("wall")) return true;
+                return false;
+
+            }
+        }
         if (nextCell.getObject() != null) return nextCell.getTileName().equals("wall") || nextCell.getObject().getTileName().equals("closed-door");
         return nextCell.getTileName().equals("wall");
     }

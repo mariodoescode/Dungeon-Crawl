@@ -104,30 +104,24 @@ public class Main extends Application {
         switch (keyEvent.getCode()) {
             case UP:
                 map.getPlayer().move(0, -1);
-                for (Skeleton skeleton : map.getSkeleton()) {
-                    skeleton.move(ThreadLocalRandom.current().nextInt(-1, 1 + 1), ThreadLocalRandom.current().nextInt(-1, 1 + 1));
-                }
+//                for (Skeleton skeleton : map.getSkeleton()) {
+//                    skeleton.SkeletonMovement(ThreadLocalRandom.current().nextInt(-1, 1 + 1), ThreadLocalRandom.current().nextInt(-1, 1 + 1));
+//                }
                 refresh();
                 break;
             case DOWN:
                 map.getPlayer().move(0, 1);
-                for (Skeleton skeleton : map.getSkeleton()) {
-                    skeleton.move(ThreadLocalRandom.current().nextInt(-1, 1 + 1),ThreadLocalRandom.current().nextInt(-1, 1 + 1));
-                }
+
                 refresh();
                 break;
             case LEFT:
                 map.getPlayer().move(-1, 0);
-                for (Skeleton skeleton : map.getSkeleton()) {
-                    skeleton.move(ThreadLocalRandom.current().nextInt(-1, 1 + 1),ThreadLocalRandom.current().nextInt(-1, 1 + 1));
-                }
+
                 refresh();
                 break;
             case RIGHT:
                 map.getPlayer().move(1, 0);
-                for (Skeleton skeleton : map.getSkeleton()) {
-                    skeleton.move(ThreadLocalRandom.current().nextInt(-1, 1 + 1),ThreadLocalRandom.current().nextInt(-1, 1 + 1));
-                }
+
                 refresh();
                 break;
             case S:
@@ -161,7 +155,7 @@ public class Main extends Application {
 
                 Cell cell = map.getCell(middleX - VISIBLE_TILES_SIZE / 2 + x, middleY - VISIBLE_TILES_SIZE / 2 + y);
                 if (cell.getActor() != null & cell.getObject() != null) {
-                    if (cell.getObject().getTileName() == "teleporter") {
+                    if (cell.getActor().getTileName() == "player" & cell.getObject().getTileName() == "teleporter") {
                         player.setX(88);
                         player.setY(15);
                     }
