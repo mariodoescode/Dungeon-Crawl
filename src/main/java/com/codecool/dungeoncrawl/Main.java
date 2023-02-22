@@ -36,8 +36,12 @@ import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.paint.Color;
+import javafx.scene.text.Font;
+import javafx.scene.text.FontPosture;
+import javafx.scene.text.FontWeight;
 import javafx.stage.Stage;
 
+import javax.swing.*;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.Random;
@@ -56,9 +60,14 @@ public class Main extends Application {
     MediaPlayer backgroundMediaPlayer;
 
     GraphicsContext context = canvas.getGraphicsContext2D();
-    Label healthLabel = new Label();
     Button pickUpButton = new Button("Pick up");
+    Button importGame = new Button("Import Save");
+    Stage importGameFrame;
+    Button exportGame = new Button("Export Save");
+    Label healthLabel = new Label();
     Label inventory = new Label();
+    Label gameOptions = new Label("Game Options:");
+    Label gameStats = new Label("Game Stats:");
     Label strength = new Label();
     GameDatabaseManager dbManager;
     public static void main(String[] args) {
@@ -72,17 +81,34 @@ public class Main extends Application {
         ui.setPrefWidth(200);
         ui.setPadding(new Insets(10));
 
-        ui.add(new Label("Health: "), 0, 0);
-        ui.add(healthLabel, 1, 0);
-        ui.add(new Label("Inventory:"), 0,3);
-        ui.add(inventory, 0, 4);
+        importGameFrame
 
-        ui.add(new Label("Strength:"), 0,5);
-
-        ui.add(strength, 2, 5);
-
-        ui.add(pickUpButton, 0,2);
+        ui.add(pickUpButton, 0,0);
         pickUpButton.setFocusTraversable(false);
+
+        gameOptions.setFont(Font.font("Verdana", FontWeight.BOLD, FontPosture.REGULAR, 15));
+        ui.add(gameOptions, 0,1);
+
+        ui.add(exportGame, 0, 3);
+        exportGame.setFocusTraversable(false);
+
+        ui.add(importGame, 0, 4);
+        importGame.setFocusTraversable(false);
+
+        gameStats.setFont(Font.font("Verdana", FontWeight.BOLD, FontPosture.REGULAR, 15));
+        ui.add(gameStats, 0, 5);
+
+        ui.add(new Label("Health: "), 0, 6);
+        healthLabel.setFont(Font.font("Square", FontWeight.BOLD, FontPosture.REGULAR, 10));
+        ui.add(healthLabel, 1, 6);
+
+        ui.add(new Label("Strength:"), 0,7);
+        strength.setFont(Font.font("Square", FontWeight.BOLD, FontPosture.REGULAR, 10));
+        ui.add(strength, 1, 7);
+
+        ui.add(new Label("Inventory:"), 0,8);
+        ui.add(inventory, 0, 9);
+
 
         BorderPane borderPane = new BorderPane();
 

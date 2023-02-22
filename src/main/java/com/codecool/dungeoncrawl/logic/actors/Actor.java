@@ -171,10 +171,12 @@ public abstract class Actor implements Drawable {
         ArrayList<Item> oldInventory = inventory;
         this.inventory = new ArrayList<>();
         for (Item item: oldInventory) {
-            if (!(item.getTileName().equals("sapphire-key"))
-                    & !(item.getTileName().equals("crimson-key"))
-                    & !(item.getTileName().equals("golden-key")))
-                inventory.add(item);
+            if (item != null){
+                if (!(item.getTileName().equals("sapphire-key"))
+                        & !(item.getTileName().equals("crimson-key"))
+                        & !(item.getTileName().equals("golden-key")))
+                    inventory.add(item);
+            }
         }
     }
 

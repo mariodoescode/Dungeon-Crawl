@@ -8,5 +8,12 @@
       <jdbc-url>jdbc:postgresql://localhost:5432/Dungeon_crawl</jdbc-url>
       <working-dir>$ProjectFileDir$</working-dir>
     </data-source>
+    <data-source source="LOCAL" name="DungeonCrawler@localhost" uuid="1a66a897-c31f-4dab-91ed-57e2ebfc496d">
+      <driver-ref>postgresql</driver-ref>
+      <synchronize>true</synchronize>
+      <jdbc-driver>org.postgresql.Driver</jdbc-driver>
+      <jdbc-url>jdbc:postgresql://localhost:5432/DungeonCrawler</jdbc-url>
+      <working-dir>$ProjectFileDir$</working-dir>
+    </data-source>
   </component>
 </project>
