@@ -31,8 +31,7 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 
-
-
+import java.io.IOException;
 import java.sql.SQLException;
 
 public class Main extends Application {
@@ -216,6 +215,8 @@ public class Main extends Application {
             dbManager.setup();
         } catch (SQLException ex) {
             System.out.println("Cannot connect to database.");
+        } catch (IOException e) {
+            throw new RuntimeException(e);
         }
     }
 
