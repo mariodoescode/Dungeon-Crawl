@@ -1,51 +1,39 @@
 package com.codecool.dungeoncrawl;
 
 import com.codecool.dungeoncrawl.dao.GameDatabaseManager;
-
 import com.codecool.dungeoncrawl.logic.Cell;
 import com.codecool.dungeoncrawl.logic.GameMap;
 import com.codecool.dungeoncrawl.logic.MapLoader;
-
 import com.codecool.dungeoncrawl.logic.actors.Player;
 import com.codecool.dungeoncrawl.logic.items.Item;
 import com.codecool.dungeoncrawl.logic.objects.CrimsonDoor;
 import com.codecool.dungeoncrawl.logic.objects.OpenedGoldenDoor;
 import com.codecool.dungeoncrawl.logic.objects.SapphireDoor;
 import javafx.application.Application;
-
 import javafx.geometry.Insets;
-import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
-
-
-import java.awt.*;
-import java.io.File;
-import java.nio.file.Paths;
-import java.util.Objects;
-import java.util.concurrent.ThreadLocalRandom;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
-import javafx.scene.input.KeyCode;
+import javafx.scene.control.TextArea;
 import javafx.scene.image.Image;
+import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyCodeCombination;
 import javafx.scene.input.KeyCombination;
-import javafx.scene.control.Button;
-import javafx.scene.layout.Border;
-import javafx.scene.media.Media;
-import javafx.scene.media.MediaPlayer;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
+import javafx.scene.media.Media;
+import javafx.scene.media.MediaPlayer;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontPosture;
 import javafx.scene.text.FontWeight;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
-import javafx.scene.control.TextArea;
 
-import javax.swing.*;
+import java.io.File;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.Random;
@@ -97,7 +85,10 @@ public class Main extends Application {
         Label nameLabel = new Label("Player Name:");
         GridPane.setConstraints(nameLabel, 0 ,0);
 
-        TextArea nameInput = new TextArea("Bro");
+        TextArea nameInput = new TextArea();
+        nameInput.setPromptText("-Your Name-");
+        nameInput.setPrefSize(200,25);
+        nameInput.setFocusTraversable(false);
         GridPane.setConstraints(nameInput, 0,1);
         Button saveButton = new Button("Save");
         GridPane.setConstraints(saveButton, 1,1);
