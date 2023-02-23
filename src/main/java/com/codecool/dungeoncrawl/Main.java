@@ -14,6 +14,7 @@ import com.codecool.dungeoncrawl.logic.objects.SapphireDoor;
 import javafx.application.Application;
 
 import javafx.geometry.Insets;
+import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
@@ -30,6 +31,7 @@ import javafx.scene.image.Image;
 import javafx.scene.input.KeyCodeCombination;
 import javafx.scene.input.KeyCombination;
 import javafx.scene.control.Button;
+import javafx.scene.layout.Border;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 import javafx.scene.input.KeyEvent;
@@ -39,7 +41,9 @@ import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontPosture;
 import javafx.scene.text.FontWeight;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
+import javafx.scene.control.TextArea;
 
 import javax.swing.*;
 import java.io.IOException;
@@ -63,6 +67,7 @@ public class Main extends Application {
     Button pickUpButton = new Button("Pick up");
     Button importGame = new Button("Import Save");
     Stage importGameFrame;
+    Scene saveScene;
     Button exportGame = new Button("Export Save");
     Label healthLabel = new Label();
     Label inventory = new Label();
@@ -70,6 +75,9 @@ public class Main extends Application {
     Label gameStats = new Label("Game Stats:");
     Label strength = new Label();
     GameDatabaseManager dbManager;
+    Scene saveModalScene;
+
+    Stage stage = new Stage();
     public static void main(String[] args) {
         launch(args);
     }
@@ -80,6 +88,31 @@ public class Main extends Application {
         GridPane ui = new GridPane();
         ui.setPrefWidth(200);
         ui.setPadding(new Insets(10));
+
+        GridPane saveModal = new GridPane();
+        saveModal.setPadding(new Insets(10,10,10,10));
+        saveModal.setVgap(8);
+        saveModal.setHgap(10);
+
+        Label nameLabel = new Label("Player Name:");
+        GridPane.setConstraints(nameLabel, 0 ,0);
+
+        TextArea nameInput = new TextArea("Bro");
+        GridPane.setConstraints(nameInput, 0,1);
+        Button saveButton = new Button("Save");
+        GridPane.setConstraints(saveButton, 1,1);
+        Button cancelButton = new Button("Cancel");
+        GridPane.setConstraints(cancelButton, 1,2);
+        saveModal.getChildren().addAll(nameLabel, nameInput, saveButton,cancelButton);
+        saveButton.setOnAction(e -> {
+            Player player = map.getPlayer();
+            player.setName(nameInput.getText());
+            dbManager.saveGameState(map);
+        });
+        cancelButton.setOnAction(e -> stage.close());
+
+        saveModalScene = new Scene(saveModal);
+
 
 //        importGameFrame
 
@@ -121,11 +154,16 @@ public class Main extends Application {
         borderPane.setRight(ui);
 
         Scene scene = new Scene(borderPane, 800, 600);
-        window = primaryStage;
-        window.setScene(scene);
-        refresh();
-        scene.setOnKeyPressed(this::onKeyPressed);
 
+
+        window = primaryStage;
+
+        window.setScene(scene);
+
+        refresh();
+
+        scene.setOnKeyPressed(this::onKeyPressed);
+        scene.setOnKeyReleased(this::onKeyReleased);
         window.getIcons().add(icon);
         window.setTitle("Dungeon Crawl");
 
@@ -138,12 +176,20 @@ public class Main extends Application {
     private void onKeyReleased(KeyEvent keyEvent) {
         KeyCombination exitCombinationMac = new KeyCodeCombination(KeyCode.W, KeyCombination.SHORTCUT_DOWN);
         KeyCombination exitCombinationWin = new KeyCodeCombination(KeyCode.F4, KeyCombination.ALT_DOWN);
+        KeyCombination saveGameCombination = new KeyCodeCombination(KeyCode.S, KeyCombination.CONTROL_ANY);
         if (exitCombinationMac.match(keyEvent)
                 || exitCombinationWin.match(keyEvent)
                 || keyEvent.getCode() == KeyCode.ESCAPE) {
             exit();
+        } if (saveGameCombination.match(keyEvent)) {
+            stage.initOwner(window);
+            stage.setTitle("Save Game");
+            stage.setScene(saveModalScene);
+            stage.initModality(Modality.APPLICATION_MODAL);
+            stage.showAndWait();
         }
     }
+
 
     private void onKeyPressed(KeyEvent keyEvent) {
         switch (keyEvent.getCode()) {
@@ -169,10 +215,10 @@ public class Main extends Application {
 
                 refresh();
             }
-            case S -> {
-                Player player = map.getPlayer();
-            }
-//                dbManager.savePlayer(player);
+//            case S -> {
+
+//            }
+
         }
     }
 

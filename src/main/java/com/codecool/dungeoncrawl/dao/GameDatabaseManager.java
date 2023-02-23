@@ -1,6 +1,8 @@
 package com.codecool.dungeoncrawl.dao;
 
+import com.codecool.dungeoncrawl.logic.GameMap;
 import com.codecool.dungeoncrawl.logic.actors.Player;
+import com.codecool.dungeoncrawl.model.GameState;
 import com.codecool.dungeoncrawl.model.PlayerModel;
 import org.postgresql.ds.PGSimpleDataSource;
 
@@ -13,19 +15,17 @@ import java.util.Properties;
 
 public class GameDatabaseManager {
     private PlayerDao playerDao;
+    private GameStateDao gameStateDao;
 
     public void setup() throws SQLException, IOException {
         DataSource dataSource = connect();
         playerDao = new PlayerDaoJdbc(dataSource);
+        gameStateDao = new GameStateDaoJdbc(dataSource, playerDao);
     }
 
-//    public void savePlayer(Player player) {
-//        PlayerModel model = new PlayerModel(player);
-//        playerDao.add(model);
-//    }
 
-    private DataSource connect() throws SQLException, IOException {
-        PGSimpleDataSource dataSource = null;
+    private DataSource connect() {
+        PGSimpleDataSource dataSource;
         try {
             FileInputStream fileInputStream = new FileInputStream("src/main/resources/connection.properties");
             Properties properties = new Properties();
@@ -51,11 +51,12 @@ public class GameDatabaseManager {
     }
 
 
-    public static void main(String[] args) {
-        System.out.println(System.getenv("DB_NAME"));
-        System.out.println(System.getenv("USERNAME"));
-        System.out.println(System.getenv("PASSWORD"));
+    public void saveGameState(GameMap map) {
+        PlayerModel playerModel = new PlayerModel(map.getPlayer());
+        String currentMap = map.getFileName();
+        java.sql.Date saved_at = new java.sql.Date(System.currentTimeMillis());
+        GameState gameState = new GameState(currentMap,saved_at,playerModel);
+        playerDao.add(playerModel);
+        gameStateDao.add(gameState);
     }
-
-
 }
