@@ -24,11 +24,13 @@ public class GameMap {
     private TheUndyingKing theUndyingKing;
 
     private ArrayList<Skeleton> skeletons = new ArrayList<>();
+    private final String fileName;
 
 
-    public GameMap(int width, int height, CellType defaultCellType) {
+    public GameMap(int width, int height, CellType defaultCellType, String fileName) {
         this.width = width;
         this.height = height;
+        this.fileName = fileName;
         cells = new Cell[width][height];
         for (int x = 0; x < width; x++) {
             for (int y = 0; y < height; y++) {
@@ -90,4 +92,7 @@ public class GameMap {
         return skeletons;
     }
 
+    public String getFileName() {
+        return fileName;
+    }
 }
