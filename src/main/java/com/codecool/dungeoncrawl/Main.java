@@ -81,7 +81,7 @@ public class Main extends Application {
         ui.setPrefWidth(200);
         ui.setPadding(new Insets(10));
 
-        importGameFrame
+//        importGameFrame
 
         ui.add(pickUpButton, 0,0);
         pickUpButton.setFocusTraversable(false);
