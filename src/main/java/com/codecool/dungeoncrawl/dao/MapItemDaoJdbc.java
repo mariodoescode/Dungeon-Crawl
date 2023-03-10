@@ -1,28 +1,30 @@
 package com.codecool.dungeoncrawl.dao;
 
-import com.codecool.dungeoncrawl.model.PlayerInventoryModel;
-import com.codecool.dungeoncrawl.model.PlayerModel;
+import com.codecool.dungeoncrawl.model.GameState;
+import com.codecool.dungeoncrawl.model.MapItemModel;
 
 import javax.sql.DataSource;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public class IntentoryDaoJdbc implements InventoryDao{
+public class MapItemDaoJdbc implements MapItemDao {
     private final DataSource dataSource;
-    private final PlayerDao playerDao;
-    public IntentoryDaoJdbc(DataSource dataSource, PlayerDao playerDao) {
+    private final GameStateDao gameStateDao;
+    public MapItemDaoJdbc(DataSource dataSource, GameStateDao gameStateDao) {
         this.dataSource = dataSource;
-        this.playerDao = playerDao;
+        this.gameStateDao = gameStateDao;
     }
 
     @Override
-    public void add(PlayerInventoryModel item) {
+    public void add(MapItemModel item) {
         try (Connection conn = dataSource.getConnection()){
-            String sql = "INSERT INTO player_inventory (item_name, player_id) VALUES(?, ?)";
+            String sql = "INSERT INTO map_items (map_id, item_name, x, y) VALUES(?, ?, ?, ?)";
             PreparedStatement statement = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
-            statement.setString(1, item.getName());
-            statement.setInt(2, item.getPlayer().getId());
+            statement.setInt(1, item.getMap().getId());
+            statement.setString(2, item.getName());
+            statement.setInt(3, item.getX());
+            statement.setInt(4, item.getY());
             statement.executeUpdate();
             ResultSet resultSet = statement.getGeneratedKeys();
             resultSet.next();
@@ -34,13 +36,15 @@ public class IntentoryDaoJdbc implements InventoryDao{
     }
 
     @Override
-    public void update(PlayerInventoryModel item) {
+    public void update(MapItemModel item) {
         try (Connection conn = dataSource.getConnection()){
-            String sql ="UPDATE player_inventory SET player_id = ?, item_name = ? WHERE id = ?";
+            String sql ="UPDATE map_items SET map_id = ?, item_name = ?, x = ?, y = ? WHERE id = ?";
             PreparedStatement statement = conn.prepareStatement(sql);
-            statement.setInt(1, item.getPlayer().getId());
+            statement.setInt(1, item.getMap().getId());
             statement.setString(2, item.getName());
-            statement.setInt(3, item.getId());
+            statement.setInt(3, item.getX());
+            statement.setInt(4, item.getY());
+            statement.setInt(5, item.getId());
             statement.executeUpdate();
         }
         catch(SQLException e){
@@ -49,9 +53,9 @@ public class IntentoryDaoJdbc implements InventoryDao{
     }
 
     @Override
-    public PlayerInventoryModel get(int id) {
+    public MapItemModel get(int id) {
         try (Connection conn = dataSource.getConnection()) {
-            String sql = "SELECT player_id, item_name FROM player_inventory WHERE id = ?";
+            String sql = "SELECT map_id, item_name, x, y FROM map_items WHERE id = ?";
             PreparedStatement statement = conn.prepareStatement(sql);
             statement.setInt(1, id);
             ResultSet resultSet = statement.executeQuery();
@@ -59,30 +63,36 @@ public class IntentoryDaoJdbc implements InventoryDao{
                 return null;
             }
 
-            PlayerModel playerModel = playerDao.get(resultSet.getInt(1));
+            String name = resultSet.getString(2);
+            int x = resultSet.getInt(3);
+            int y = resultSet.getInt(4);
+            GameState map = gameStateDao.get(resultSet.getInt(1));
 
-            PlayerInventoryModel item = new PlayerInventoryModel(resultSet.getString(2), playerModel);
+            MapItemModel item = new MapItemModel(name, x, y, map);
             item.setId(id);
             return item;
         } catch (SQLException e) {
-            throw new RuntimeException("Error while reading player_items with id: " + id, e);
+            throw new RuntimeException("Error while reading map_items with id: " + id, e);
         }
     }
 
     @Override
-    public List<PlayerInventoryModel> getAll() {
+    public List<MapItemModel> getAll() {
         try (Connection conn = dataSource.getConnection()) {
-            String sql = "SELECT id, player_id, item_name FROM player_inventory";
+            String sql = "SELECT id, map_id, item_name, x, y FROM map_items";
             ResultSet resultSet = conn.createStatement().executeQuery(sql);
 
-            List<PlayerInventoryModel> result = new ArrayList<>();
+            List<MapItemModel> result = new ArrayList<>();
             while (resultSet.next()) {
                 int id = resultSet.getInt(1);
-                int player_id = resultSet.getInt(2);
+                int map_id = resultSet.getInt(2);
                 String item_name = resultSet.getString(3);
-                PlayerModel playerModel = playerDao.get(player_id);
+                int x = resultSet.getInt(4);
+                int y = resultSet.getInt(5);
 
-                PlayerInventoryModel item = new PlayerInventoryModel(item_name, playerModel);
+                GameState map = gameStateDao.get(map_id);
+
+                MapItemModel item = new MapItemModel(item_name, x, y, map);
                 item.setId(id);
                 result.add(item);
             }
@@ -93,21 +103,23 @@ public class IntentoryDaoJdbc implements InventoryDao{
     }
 
     @Override
-    public List<PlayerInventoryModel> getPlayerItems(int player_id) {
+    public List<MapItemModel> getMapItems(int map_id) {
         try (Connection conn = dataSource.getConnection()) {
-            String sql = "SELECT id, item_name FROM player_inventory WHERE player_id = ?";
+            String sql = "SELECT id, item_name, x, y FROM map_items WHERE map_id = ?";
             PreparedStatement statement = conn.prepareStatement(sql);
-            statement.setInt(1, player_id);
+            statement.setInt(1, map_id);
             ResultSet resultSet = statement.executeQuery();
 
-            List<PlayerInventoryModel> result = new ArrayList<>();
+            List<MapItemModel> result = new ArrayList<>();
             while (resultSet.next()) {
                 int id = resultSet.getInt(1);
                 String item_name = resultSet.getString(2);
+                int x = resultSet.getInt(3);
+                int y = resultSet.getInt(4);
 
-                PlayerModel playerModel = playerDao.get(player_id);
+                GameState map = gameStateDao.get(map_id);
 
-                PlayerInventoryModel item = new PlayerInventoryModel(item_name, playerModel);
+                MapItemModel item = new MapItemModel(item_name, x, y, map);
                 item.setId(id);
                 result.add(item);
             }

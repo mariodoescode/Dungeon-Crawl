@@ -2,14 +2,13 @@ package com.codecool.dungeoncrawl.dao;
 
 import java.util.List;
 
-import com.codecool.dungeoncrawl.model.PlayerInventory;
-import com.codecool.dungeoncrawl.model.PlayerModel;
+import com.codecool.dungeoncrawl.model.PlayerInventoryModel;
 
 public interface InventoryDao {
 
-    void add(PlayerInventory item);
-    void update(PlayerInventory item);
-    PlayerInventory get(int id);
-    List<PlayerInventory> getAll();
-    List<PlayerInventory> getPlayerItems(int player_id);
+    void add(PlayerInventoryModel item);
+    void update(PlayerInventoryModel item);
+    PlayerInventoryModel get(int id);
+    List<PlayerInventoryModel> getAll();
+    List<PlayerInventoryModel> getPlayerItems(int player_id);
 }

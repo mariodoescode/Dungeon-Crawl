@@ -14,7 +14,7 @@ public abstract class Actor implements Drawable {
     Cell cell;
     private int health = 10;
     private int strength;
-    private ArrayList<Item> inventory = new ArrayList<>();
+    public ArrayList<Item> inventory = new ArrayList<>();
 
 
     public Actor(Cell cell) {
@@ -83,20 +83,20 @@ public abstract class Actor implements Drawable {
 
 
     boolean canHeroMove(Cell nextCell) {
-        if (cell.getActor() != null) {
-            if (cell.getActor().getTileName().equals("skeleton")) {
-                if (nextCell.getObject() != null) return nextCell.getObject().getTileName().equals("closed-door");
-                else if(nextCell.getActor() != null
-                        || nextCell.getItem() != null
-                        || nextCell.getTileName().equals("wall")) return true;
-                return false;
-
-            }
-        }
-        if (nextCell.getObject() != null)
-            return nextCell.getObject().getTileName().equals("closed-golden-door")
-                || nextCell.getObject().getTileName().equals("crimson-door-closed")
-                || nextCell.getObject().getTileName().equals("sapphire-door-closed") ;
+//        if (cell.getActor() != null) {
+////            if (cell.getActor().getTileName().equals("skeleton")) {
+////                if (nextCell.getItem() != null) return nextCell.getItem().getTileName().equals("closed-door");
+////                else if(nextCell.getActor() != null
+////                        || nextCell.getItem() != null
+////                        || nextCell.getTileName().equals("wall")) return true;
+////                return false;
+////
+////            }
+//        }
+        if (nextCell.getItem() != null)
+            return nextCell.getItem().getTileName().equals("closed-golden-door")
+                || nextCell.getItem().getTileName().equals("crimson-door-closed")
+                || nextCell.getItem().getTileName().equals("sapphire-door-closed") ;
         return nextCell.getTileName().equals("wall") ||  nextCell.getTileName().equals("tree");
     }
     public int getHealth() {
@@ -134,7 +134,11 @@ public abstract class Actor implements Drawable {
     }
 
     public void addItem(Item item) {
-        inventory.add(item);
+        String item_name = item.getTileName();
+        if (item_name.equals("sword") || item_name.equals("bow") || item_name.equals("chest-plate") ||
+            item_name.equals("helmet") || item_name.equals("boots") || item_name.equals("shield") ||
+            item_name.equals("scythe") || item_name.equals("poleaxe") || item_name.equals("sapphire-key") ||
+            item_name.equals("crimson-key") || item_name.equals("golden-key")) inventory.add(item);
     }
 
     public void setStats(Item item, Actor actor) {

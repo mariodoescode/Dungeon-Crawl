@@ -5,18 +5,19 @@ import com.codecool.dungeoncrawl.logic.Cell;
 import com.codecool.dungeoncrawl.logic.GameMap;
 import com.codecool.dungeoncrawl.logic.MapLoader;
 import com.codecool.dungeoncrawl.logic.actors.Player;
+import com.codecool.dungeoncrawl.logic.items.CrimsonDoor;
 import com.codecool.dungeoncrawl.logic.items.Item;
-import com.codecool.dungeoncrawl.logic.objects.CrimsonDoor;
-import com.codecool.dungeoncrawl.logic.objects.OpenedGoldenDoor;
-import com.codecool.dungeoncrawl.logic.objects.SapphireDoor;
+import com.codecool.dungeoncrawl.logic.items.OpenedGoldenDoor;
+import com.codecool.dungeoncrawl.logic.items.SapphireDoor;
+import com.codecool.dungeoncrawl.model.PlayerModel;
 import javafx.application.Application;
 import javafx.geometry.Insets;
+import javafx.scene.Group;
+import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.TextArea;
+import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyCodeCombination;
@@ -36,14 +37,13 @@ import javafx.stage.Stage;
 import java.io.File;
 import java.io.IOException;
 import java.sql.SQLException;
-import java.util.Random;
+import java.util.Collection;
 
 
 public class Main extends Application {
-    Random random = new Random();
     Stage window;
     public static int VISIBLE_TILES_SIZE = 14;
-    GameMap map = MapLoader.loadMap();
+    GameMap map = MapLoader.loadMap("game-map");
     Canvas canvas = new Canvas(
             VISIBLE_TILES_SIZE * Tiles.TILE_WIDTH,
             VISIBLE_TILES_SIZE * Tiles.TILE_WIDTH);
@@ -54,8 +54,6 @@ public class Main extends Application {
     GraphicsContext context = canvas.getGraphicsContext2D();
     Button pickUpButton = new Button("Pick up");
     Button importGame = new Button("Import Save");
-    Stage importGameFrame;
-    Scene saveScene;
     Button exportGame = new Button("Export Save");
     Label healthLabel = new Label();
     Label inventory = new Label();
@@ -64,6 +62,8 @@ public class Main extends Application {
     Label strength = new Label();
     GameDatabaseManager dbManager;
     Scene saveModalScene;
+    Scene loadModalScene;
+    ListView<String> listView = new ListView<>();
 
     Stage stage = new Stage();
     public static void main(String[] args) {
@@ -99,13 +99,28 @@ public class Main extends Application {
             Player player = map.getPlayer();
             player.setName(nameInput.getText());
             dbManager.saveGameState(map);
+            stage.close();
         });
         cancelButton.setOnAction(e -> stage.close());
 
+        GridPane loadModal = new GridPane();
+        loadModal.setPadding(new Insets(10,10,10,10));
+        loadModal.setVgap(8);
+        loadModal.setHgap(10);
+
+
+
+//        ArrayList<String> results = new ArrayList<>();
+        for(PlayerModel player: dbManager.getPlayers()){
+            listView.getItems().add(player.getPlayerName());
+        }
+        Label loadTitle = new Label("Saves");
+        handleItemClicks();
+        loadModal.getChildren().addAll(loadTitle,listView);
+
+        loadModalScene = new Scene(loadModal);
         saveModalScene = new Scene(saveModal);
 
-
-//        importGameFrame
 
         ui.add(pickUpButton, 0,0);
         pickUpButton.setFocusTraversable(false);
@@ -168,17 +183,30 @@ public class Main extends Application {
         KeyCombination exitCombinationMac = new KeyCodeCombination(KeyCode.W, KeyCombination.SHORTCUT_DOWN);
         KeyCombination exitCombinationWin = new KeyCodeCombination(KeyCode.F4, KeyCombination.ALT_DOWN);
         KeyCombination saveGameCombination = new KeyCodeCombination(KeyCode.S, KeyCombination.CONTROL_ANY);
+        KeyCombination loadGameCombination = new KeyCodeCombination(KeyCode.L, KeyCombination.CONTROL_ANY);
         if (exitCombinationMac.match(keyEvent)
                 || exitCombinationWin.match(keyEvent)
                 || keyEvent.getCode() == KeyCode.ESCAPE) {
             exit();
         } if (saveGameCombination.match(keyEvent)) {
-            stage.initOwner(window);
+//            stage.initOwner(window);
             stage.setTitle("Save Game");
             stage.setScene(saveModalScene);
             stage.initModality(Modality.APPLICATION_MODAL);
-            stage.showAndWait();
+            stage.show();
+
+        } else if (loadGameCombination.match(keyEvent)) {
+//            stage.initOwner(window);
+            stage.setTitle("Load Game");
+            stage.setScene(loadModalScene);
+            stage.initModality(Modality.APPLICATION_MODAL);
+            stage.show();
+
         }
+    }
+
+    public void showAndWaitScene() {
+       stage.show();
     }
 
 
@@ -235,13 +263,13 @@ public class Main extends Application {
                 }
 
                 Cell cell = map.getCell(middleX - VISIBLE_TILES_SIZE / 2 + x, middleY - VISIBLE_TILES_SIZE / 2 + y);
-                if (cell.getActor() != null & cell.getObject() != null) {
-                    if (cell.getActor().getTileName().equals("player") & cell.getObject().getTileName().equals("teleporter")) {
+                if (cell.getActor() != null & cell.getItem() != null) {
+                    if (cell.getActor().getTileName().equals("player") & cell.getItem().getTileName().equals("teleporter")) {
                         map.getPlayer().removeItems();
                         map.getPlayer().setHealth(33);
                         player.setX(88);
                         player.setY(15);
-                    } else if (cell.getActor().getTileName().equals("player") & cell.getObject().getTileName().equals("ladder")) {
+                    } else if (cell.getActor().getTileName().equals("player") & cell.getItem().getTileName().equals("ladder")) {
                         player.setX(153);
                         player.setY(2);
                     }
@@ -253,21 +281,19 @@ public class Main extends Application {
                         exit();
                     }
                 } else if (cell.getItem() != null) {
-                    Tiles.drawTile(context, cell.getItem(), x, y);
-                } else if (cell.getObject() != null) {
                         for (Item item : map.getPlayer().getItems()) {
                             if (item != null) {
-                                if (item.getTileName().equals("golden-key") & cell.getObject().getTileName().equals("closed-golden-door")) {
+                                if (item.getTileName().equals("golden-key") & cell.getItem().getTileName().equals("closed-golden-door")) {
                                     Tiles.drawTile(context, new OpenedGoldenDoor(cell), x,y);
-                                } else if (item.getTileName().equals("sapphire-key")  & cell.getObject().getTileName().equals("sapphire-door-closed")) {
+                                } else if (item.getTileName().equals("sapphire-key")  & cell.getItem().getTileName().equals("sapphire-door-closed")) {
                                     Tiles.drawTile(context, new SapphireDoor(cell), x, y);
-                                } else if (item.getTileName().equals("crimson-key")  & cell.getObject().getTileName().equals("crimson-door-closed")) {
+                                } else if (item.getTileName().equals("crimson-key")  & cell.getItem().getTileName().equals("crimson-door-closed")) {
                                     Tiles.drawTile(context, new CrimsonDoor(cell), x, y);
                                 }
-                                Tiles.drawTile(context, cell.getObject(), x, y);
+                                Tiles.drawTile(context, cell.getItem(), x, y);
                             }
 
-                        } Tiles.drawTile(context, cell.getObject(), x, y);
+                        } Tiles.drawTile(context, cell.getItem(), x, y);
                 }
                 else {
                     Tiles.drawTile(context, cell, x, y);
@@ -287,7 +313,15 @@ public class Main extends Application {
             inventory.setText("" + map.getPlayer().getInventory());
         }
     }
-
+    public void handleItemClicks() {
+        listView.setOnMouseClicked(event -> {
+            String selectedItem = listView.getSelectionModel().getSelectedItem();
+            GameMap newMap = dbManager.loadGame(selectedItem);
+            map.setCells(newMap.getCells());
+            map.setPlayer(newMap.getPlayer());
+            refresh();
+        });
+    }
 
     private void setupDbManager() {
         dbManager = new GameDatabaseManager();

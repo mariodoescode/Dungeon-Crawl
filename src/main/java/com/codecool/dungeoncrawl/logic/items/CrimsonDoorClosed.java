@@ -1,8 +1,8 @@
-package com.codecool.dungeoncrawl.logic.objects;
+package com.codecool.dungeoncrawl.logic.items;
 
 import com.codecool.dungeoncrawl.logic.Cell;
 
-public class CrimsonDoorClosed extends Object{
+public class CrimsonDoorClosed extends Item {
     public CrimsonDoorClosed(Cell cell) {
         super(cell);
     }

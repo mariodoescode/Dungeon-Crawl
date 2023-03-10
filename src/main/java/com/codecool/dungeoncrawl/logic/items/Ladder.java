@@ -1,9 +1,9 @@
-package com.codecool.dungeoncrawl.logic.objects;
+package com.codecool.dungeoncrawl.logic.items;
 
 import com.codecool.dungeoncrawl.logic.Cell;
 
 
-public class Ladder extends Object {
+public class Ladder extends Item {
     public Ladder(Cell cell) {
         super(cell);
     }

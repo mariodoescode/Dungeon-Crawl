@@ -1,8 +1,8 @@
-package com.codecool.dungeoncrawl.logic.objects;
+package com.codecool.dungeoncrawl.logic.items;
 
 import com.codecool.dungeoncrawl.logic.Cell;
 
-public class SapphireDoor extends Object{
+public class SapphireDoor extends Item {
     public SapphireDoor(Cell cell) {
         super(cell);
     }

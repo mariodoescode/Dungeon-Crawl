@@ -6,13 +6,18 @@ import com.codecool.dungeoncrawl.logic.actors.Player;
 import com.codecool.dungeoncrawl.logic.actors.Skeleton;
 
 import java.util.ArrayList;
+import java.util.List;
+
 import com.codecool.dungeoncrawl.logic.actors.*;
+import com.codecool.dungeoncrawl.logic.items.Item;
+import com.codecool.dungeoncrawl.logic.items.Sword;
 
 
 public class GameMap {
     private final int width;
     private final int height;
     private final Cell[][] cells;
+    private Cell centerCell;
 
     private Player player;
     private Ghost ghost;
@@ -45,6 +50,22 @@ public class GameMap {
 
     public void setPlayer(Player player) {
         this.player = player;
+        repositionCenter();
+    }
+
+    public void repositionCenter() {
+        int nextX;
+        int nextY;
+        if (player.getCell().getX() <= 10) {
+            nextX = 10;
+        } else nextX = Math.min(player.getCell().getX(), width - 11);
+
+        if (player.getCell().getY() <= 10) {
+            nextY = 10;
+        } else nextY = Math.min(player.getCell().getY(), height - 11);
+
+        centerCell = cells[nextX][nextY];
+
     }
 
     public void setGhost(Ghost ghost) {
@@ -94,5 +115,54 @@ public class GameMap {
 
     public String getFileName() {
         return fileName;
+    }
+
+    public Cell[][] getCells() {
+        return cells;
+    }
+
+    public List<Item> getItems(){
+        List<Item> items = new ArrayList<>();
+        for(int i = 0; i < height; i++) {
+            for (int j = 0; j < width; j++) {
+                if (cells[j][i].getItem() != null){
+                    items.add(cells[j][i].getItem());
+                }
+            }
+        }
+        return items;
+    }
+
+    public List<Actor> getMonsters(){
+        List<Actor> monsters = new ArrayList<>();
+        for(int i = 0; i < height; i++) {
+            for (int j = 0; j < width; j++) {
+                if (cells[j][i].getActor() != null && !cells[j][i].getActor().getTileName().equals("player")){
+                    monsters.add(cells[j][i].getActor());
+                }
+            }
+        }
+        return monsters;
+    }
+
+    public void placeItem(Object obj){
+        if(obj instanceof Actor){
+            Actor actor = (Actor)obj;
+            int x = actor.getX();
+            int y = actor.getY();
+            cells[x][y].setActor(actor);
+        }
+        else if (obj instanceof Item){
+            Item item = (Item)obj;
+            int x = item.getX();
+            int y = item.getY();
+            cells[x][y].setItem(item);
+        }
+    }
+
+    public void setCells(Cell[][] cells){
+        for (int x = 0; x < width; x++) {
+            if (height >= 0) System.arraycopy(cells[x], 0, this.cells[x], 0, height);
+        }
     }
 }

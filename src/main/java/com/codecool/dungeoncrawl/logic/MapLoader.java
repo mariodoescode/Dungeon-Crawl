@@ -4,15 +4,16 @@ package com.codecool.dungeoncrawl.logic;
 import com.codecool.dungeoncrawl.logic.actors.*;
 
 import com.codecool.dungeoncrawl.logic.items.*;
-import com.codecool.dungeoncrawl.logic.objects.ClosedGoldenDoor;
-import com.codecool.dungeoncrawl.logic.objects.Teleporter;
-import com.codecool.dungeoncrawl.logic.objects.*;
 import java.io.InputStream;
 import java.util.Scanner;
 
 public class MapLoader {
-    public static GameMap loadMap() {
-        InputStream is = MapLoader.class.getResourceAsStream("/game-map.txt");
+    static final String TXT_EXTENSION = ".txt";
+
+    static final String SLASH = "/";
+    public static GameMap loadMap(String mapName) {
+        System.out.println(mapName);
+        InputStream is = MapLoader.class.getResourceAsStream(SLASH + mapName + TXT_EXTENSION);
         assert is != null;
         Scanner scanner = new Scanner(is);
         int width = scanner.nextInt();
@@ -20,7 +21,7 @@ public class MapLoader {
 
         scanner.nextLine(); // empty line
 
-        GameMap map = new GameMap(width, height, CellType.EMPTY, "/game-map.txt");
+        GameMap map = new GameMap(width, height, CellType.EMPTY, mapName);
         for (int y = 0; y < height; y++) {
             String line = scanner.nextLine();
             for (int x = 0; x < width; x++) {

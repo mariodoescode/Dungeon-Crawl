@@ -1,8 +1,8 @@
-package com.codecool.dungeoncrawl.logic.objects;
+package com.codecool.dungeoncrawl.logic.items;
 
 import com.codecool.dungeoncrawl.logic.Cell;
 
-public class OpenedGoldenDoor extends Object{
+public class OpenedGoldenDoor extends Item {
     public OpenedGoldenDoor(Cell cell) {
         super(cell);
     }
