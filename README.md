@@ -41,7 +41,7 @@ Get ready to dive into the world of Dungeon Crawl with these essential gameplay 
 
 The game's implementation files and assets can be accessed through the following links:
 
-- [Game Implementation Part 1](https://drive.google.com/file/d/13XbGIw-0EWTKxaR_lKaM3qPr8jEijfWA/view?usp=drive_link)
+- [[Game Implementation Part 1](https://drive.google.com/file/d/13XbGIw-0EWTKxaR_lKaM3qPr8jEijfWA/view?usp=drive_link)](https://drive.google.com/uc?id=13XbGIw-0EWTKxaR_lKaM3qPr8jEijfWA)
 - [Game Implementation Part 2](https://drive.google.com/file/d/1Lmk-KzuS-LJnPXI6-ckOFPaliHWeWt6q/view?usp=drive_link)
 - [Game Implementation Part 3](https://drive.google.com/file/d/1cWf7WMxWzSF7nYbsCFhZgrrcYOcCXVKf/view?usp=drive_link)
 - [Game Implementation Part 4](https://drive.google.com/file/d/1wGH_GIq-nMsDx2x0nSMRLMt2upf2rcT4/view?usp=drive_link)
