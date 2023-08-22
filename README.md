@@ -42,9 +42,9 @@ Get ready to dive into the world of Dungeon Crawl with these essential gameplay 
 The game's implementation files and assets can be accessed through the following links:
 
 - ![GameStart](https://github.com/mariodoescode/Codecool-Shop/assets/106011177/356a611d-fdfe-4410-a2b3-2bd83794e4b4)
-- [[Game Implementation Part 2](https://drive.google.com/file/d/1Lmk-KzuS-LJnPXI6-ckOFPaliHWeWt6q/view?usp=drive_link)](https://drive.google.com/uc?export=view&id=13XbGIw-0EWTKxaR_lKaM3qPr8jEijfWA)
-- [Game Implementation Part 3](https://drive.google.com/file/d/1cWf7WMxWzSF7nYbsCFhZgrrcYOcCXVKf/view?usp=drive_link)
-- [Game Implementation Part 4](https://drive.google.com/file/d/1wGH_GIq-nMsDx2x0nSMRLMt2upf2rcT4/view?usp=drive_link)
+- ![FirstPartFinalBoss](https://github.com/mariodoescode/Codecool-Shop/assets/106011177/dc86af48-bdd8-48ea-976a-cb7c2106e06f)
+- ![FinalBossEntrance](https://github.com/mariodoescode/Codecool-Shop/assets/106011177/566d3c6d-702b-4899-b0b9-c041795d697f)
+- ![EndOfTheGame](https://github.com/mariodoescode/Codecool-Shop/assets/106011177/52ac2ed0-1c81-4916-8c15-2862890f27e6)
 
 ## Ideas for Further Development
 
