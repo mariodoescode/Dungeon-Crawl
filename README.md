@@ -2,7 +2,7 @@
 
 ## Description
 
-Welcome to Dungeon Crawl, an exciting tile-based roguelike game that will challenge your skills and courage. In this game, you'll step into the shoes of a valiant knight, ready to face a variety of challenges, from spooky skeletons to formidable bosses like snakes, wizards, and spirits. Conquer your fears and guide your hero through the treacherous dungeon to reach the light of the outside world once again.
+Dungeon Crawl is a tile-based roguelike game, in which you play as a knight ready to face the challenges ahead of him, spooky skeletons, all types of bosses ranging from snakes and wizards to even spirits, conquer your fears and help your hero reach the outside world once again.
 
 ## Technologies Used
 
